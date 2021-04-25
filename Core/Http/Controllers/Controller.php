@@ -2,8 +2,6 @@
 
 namespace Core\Http\Controllers;
 
-use App\User\Repositories\UserRepository;
-use Core\Entity;
 use Core\Repository;
 use Core\Resource;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -25,6 +23,9 @@ class Controller extends BaseController
      */
     protected Resource $resource;
 
+    /**
+     * Controller constructor.
+     */
     public function __construct()
     {
         $this->repository = new $this->classes['repository'](
@@ -33,10 +34,14 @@ class Controller extends BaseController
         $this->resource = new $this->classes['resource']();
     }
 
+    /**
+     * @param int $id
+     * @return false|string
+     */
     public function get(int $id){
-        $res = $this->repository->findById($id);
+        $repos = $this->repository->findById($id);
 
-        return $this->resource->output($res);
+        return $this->resource->output($repos);
     }
 
 }
