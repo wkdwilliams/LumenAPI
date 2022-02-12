@@ -1,13 +1,12 @@
 <?php
 
 
-
-use App\User\Models\User;
+use App\Message\Models\Message;
 use Faker\Generator as Faker;
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Message::class, function (Faker $faker) {
     return [
-        'name'  => $faker->name,
-        'email' => $faker->email,
+        'user_id' => 1,
+        'message' => implode(' ', $faker->words)
     ];
 });

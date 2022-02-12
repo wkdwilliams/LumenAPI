@@ -20,4 +20,10 @@ class UserController extends Controller
         'model'      => User::class
     ];
 
+    public function test()
+    {
+
+
+    }
+
 }

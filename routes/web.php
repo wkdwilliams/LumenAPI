@@ -11,8 +11,11 @@
 |
 */
 
+use App\User\DataMappers\UserDataMapper;
+
 $router->get('/', function(){
     return "Front page of API";
 });
 
 $router->get('/user/{id}', '\App\User\Controllers\UserController@get');
+$router->get('/test', '\App\User\Controllers\UserController@test');

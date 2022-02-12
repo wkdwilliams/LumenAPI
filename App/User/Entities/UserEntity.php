@@ -17,6 +17,11 @@ class UserEntity extends Entity
     private $email;
 
     /**
+     * @var
+     */
+    private $messages;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -46,6 +51,19 @@ class UserEntity extends Entity
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
+    public function setMessages(array $messages): void
+    {
+        $this->messages = $messages;
     }
 
 

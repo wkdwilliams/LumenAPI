@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Core\DataMapper\DataMapper;
+use Core\DataMapper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -100,7 +100,12 @@ abstract class Repository
      */
     public function findById(string $id): Entity
     {
-        return $this->where(['id' => $id])->entity();
+        return $this->where(['id' => $id])->entity(); // Should return resource?
+    }
+
+    public function findByForeignId(string $foreignIdField, string $id): EntityCollection
+    {
+        return $this->where([$foreignIdField => $id])->entityCollection();
     }
 
     /**

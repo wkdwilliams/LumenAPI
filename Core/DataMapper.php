@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\DataMapper;
+namespace Core;
 
 use Core\Entity;
 
