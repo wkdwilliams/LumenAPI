@@ -5,6 +5,7 @@ namespace Core;
 use Core\DataMapper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 abstract class Repository
 {
@@ -19,9 +20,15 @@ abstract class Repository
      */
     protected $query;
 
+    /**
+     * @var Model
+     */
+    protected $model;
+
     public function __construct(DataMapper $dataMapper, Model $model)
     {
         $this->query        = $model;
+        $this->model        = $model;
         $this->datamapper   = $dataMapper;
     }
 
@@ -72,18 +79,6 @@ abstract class Repository
         return $this->setQuery($this->getQuery()->whereNotNull($column));
     }
 
-    public function truncate()
-    {
-        return $this->whereNotNull('id')->delete();
-    }
-
-    public function limit($value)
-    {
-        $query = $this->getQuery()->limit($value);
-
-        return $this->setQuery($query);
-    }
-
     /**
      * @param string $id
      * @return Entity
@@ -108,6 +103,9 @@ abstract class Repository
         return $this->setQuery($query)->entityCollection();
     }
 
+    /**
+     * @return Entity
+     */
     public function entity(): Entity
     {
         $data = $this->getQuery()->get()->toArray()[0];
@@ -148,7 +146,42 @@ abstract class Repository
         }
         if(!$m->save()) return false;
         
-        return $this->datamapper->getEntity($m->toArray());
+        return $this->datamapper->getEntity($m->toArray()); //Return the created entity
+    }
+
+    /**
+     * @param array $data
+     * 
+     * @return mixed
+     */
+    public function update(array $data): mixed
+    {
+        $newEntity  = $this->datamapper->toEntity($data);
+        $newEntity  = $this->datamapper->fromApplication($newEntity);
+
+        $m = $this->model::find($data['id']);
+        foreach ($newEntity as $key => $value) {
+            if($value == '') continue;
+            $m->{$key} = $value;
+        }
+        if(!$m->save()) return false;
+        
+        return $this->datamapper->getEntity($m->toArray()); // Return the updated entity
+    }
+
+    /**
+     * @param array $data
+     * 
+     * @return mixed
+     */
+    public function delete(array $data): mixed
+    {
+        $entity = $this->findById($data['id']);
+        
+        if(!$this->model->where(['id' => $data['id']])->delete())
+            return false;
+
+        return $entity; // Return the entity we deleted
     }
 
 }

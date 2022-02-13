@@ -31,8 +31,8 @@ class UserDataMapper extends DataMapper
     protected function toRepository(array $data): array
     {
         return [
-            'name'  => $data['name'],
-            'email' => $data['email']
+            'name'  => $data['name'] ?? '',
+            'email' => $data['email'] ?? ''
         ];
     }
 

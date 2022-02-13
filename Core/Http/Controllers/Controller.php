@@ -79,4 +79,30 @@ class Controller extends BaseController
         );
     }
 
+    /**
+     * Update resource
+     * @return Response
+     */
+    public function updateResource(): Response
+    {
+        $data = $this->request->all();
+
+        $repos = $this->repository->update($data);
+
+        return Response(
+            new $this->classes['resource']($repos)
+        );
+    }
+
+    public function deleteResource()
+    {
+        $data = $this->request->all();
+
+        $repos = $this->repository->delete($data);
+
+        return Response(
+            new $this->classes['resource']($repos)
+        );
+    }
+
 }

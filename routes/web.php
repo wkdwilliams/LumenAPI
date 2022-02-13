@@ -20,5 +20,7 @@ $router->group(['prefix' => 'api'], function() use ($router){
     $router->get('/user', '\App\User\Controllers\UserController@getResources');
     $router->get('/user/{id}', '\App\User\Controllers\UserController@getResource');
     $router->post('/user', '\App\User\Controllers\UserController@createResource');
+    $router->put('/user', '\App\User\Controllers\UserController@updateResource');
+    $router->delete('/user', '\App\User\Controllers\UserController@deleteResource');
     
 });
