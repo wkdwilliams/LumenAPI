@@ -3,7 +3,6 @@
 namespace App\User\Controllers;
 
 use App\User\DataMappers\UserDataMapper;
-use App\User\Entities\UserEntity;
 use App\User\Models\User;
 use App\User\Repositories\UserRepository;
 use App\User\Resources\UserCollection;
@@ -18,7 +17,7 @@ class UserController extends Controller
         'repository' => UserRepository::class,
         'resource'   => UserResource::class,
         'collection' => UserCollection::class,
-        'model'      => User::class
+        'model'      => User::class,
     ];
 
 }
