@@ -4,6 +4,7 @@ namespace App\Message\DataMappers;
 
 use App\Message\Entities\MessageEntity;
 use Core\DataMapper;
+use Core\Entity;
 
 class MessageDataMapper extends DataMapper
 {
@@ -19,7 +20,12 @@ class MessageDataMapper extends DataMapper
         ];
     }
 
-    protected function fromApplication(array $data): array
+    protected function toRepository(array $data): array
+    {
+        return [];
+    }
+
+    public function fromApplication(Entity $data): array
     {
         return [];
     }

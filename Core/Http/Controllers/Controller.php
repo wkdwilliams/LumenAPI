@@ -2,10 +2,9 @@
 
 namespace Core\Http\Controllers;
 
-use App\Message\Resources\MessageResource;
-use App\User\Models\User;
 use Core\Repository;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -21,36 +20,63 @@ class Controller extends BaseController
     protected Repository $repository;
 
     /**
-     * Controller constructor.
+     * @var Request
      */
-    public function __construct()
+    protected $request;
+
+    /**
+     * Controller constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
     {
         $this->repository = new $this->classes['repository'](
             new $this->classes['datamapper'](), new $this->classes['model']()
         );
+
+        $this->request = $request;
     }
 
     /**
+     * Get resource by id
      * @param int $id
      * @return false|string
      */
-    public function get(int $id): JsonResource
+    public function getResource(int $id): Response
     {
         $repos = $this->repository->findById($id);
 
-        return new $this->classes['resource']($repos);
+        return Response(
+            new $this->classes['resource']($repos)
+        );
     }
 
-    public function getAll()
+    /**
+     * Get all resources
+     * @return Response
+     */
+    public function getResources(): Response
     {
         $repos = $this->repository->findAll();
 
-        return new $this->classes['collection']($repos);
+        return Response(
+            new $this->classes['collection']($repos)
+        );
     }
 
-    public function post()
+    /**
+     * Create resource
+     * @return Response
+     */
+    public function createResource(): Response
     {
+        $data = $this->request->all();
 
+        $repos = $this->repository->create($data);
+
+        return Response(
+            new $this->classes['resource']($repos)
+        );
     }
 
 }

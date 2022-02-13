@@ -17,6 +17,7 @@ abstract class DataMapper
     }
 
     /**
+     * Used for populating an entity with data retrived from the repository
      * @param array $data
      * @return Entity
      */
@@ -27,15 +28,35 @@ abstract class DataMapper
     }
 
     /**
+     * Used when populating an entity with data sent by a client
+     * @param array $data
+     * @return Entity
+     */
+    public function toEntity(array $data): Entity
+    {
+        $this->entity = new $this->entity();
+        return $this->entity->populate($this->toRepository($data));
+    }
+
+    /**
+     * Used for mapping data from a repository
      * @param array $data
      * @return array
      */
     abstract protected function fromRepository(array $data): array;
 
     /**
+     * Used for mapping data to a repository
      * @param array $data
      * @return array
      */
-    abstract protected function fromApplication(array $data): array;
+    abstract protected function toRepository(array $data): array;
+
+    /**
+     * Used for mapping an entity to processed
+     * @param array $data
+     * @return array
+     */
+    abstract public function fromApplication(Entity $data): array;
 
 }

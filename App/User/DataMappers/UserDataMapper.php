@@ -7,7 +7,7 @@ use App\Message\Models\Message;
 use App\Message\Repositories\MessageRepository;
 use App\User\Entities\UserEntity;
 use Core\DataMapper;
-use Illuminate\Support\Collection;
+use Core\Entity;
 
 class UserDataMapper extends DataMapper
 {
@@ -28,9 +28,20 @@ class UserDataMapper extends DataMapper
         ];
     }
 
-    protected function fromApplication(array $data): array
+    protected function toRepository(array $data): array
     {
-        return [];
+        return [
+            'name'  => $data['name'],
+            'email' => $data['email']
+        ];
+    }
+
+    public function fromApplication(Entity $entity): array
+    {
+        return [
+            'name'  => $entity->getName(),
+            'email' => $entity->getEmail()
+        ];
     }
 
 }

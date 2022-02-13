@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository
 {
-    /**
-     * @var Model
-     */
-    protected $model;
 
     /**
      * @var DataMapper
@@ -25,7 +21,6 @@ abstract class Repository
 
     public function __construct(DataMapper $dataMapper, Model $model)
     {
-        $this->model        = $model;
         $this->query        = $model;
         $this->datamapper   = $dataMapper;
     }
@@ -75,11 +70,6 @@ abstract class Repository
     public function whereNotNull($column): Repository
     {
         return $this->setQuery($this->getQuery()->whereNotNull($column));
-    }
-
-    public function count(string $column, $value)
-    {
-        return $this->model->where($column, $value)->count();
     }
 
     public function truncate()
@@ -134,12 +124,31 @@ abstract class Repository
 
         $collection = new EntityCollection();
 
-        foreach ($data as $i => $d)
+        foreach ($data as $d)
         {
             $collection->push($this->datamapper->getEntity($d));
         }
 
         return $collection;
+    }
+
+    /**
+     * @param array $data
+     * 
+     * @return mixed
+     */
+    public function create(array $data): mixed
+    {
+        $entity = $this->datamapper->toEntity($data);           // Convert our data into an entity for filtering & data manipulation
+        $entity = $this->datamapper->fromApplication($entity);  // Convert our entity back into an array
+
+        $m = new $this->query();
+        foreach ($entity as $key => $value) {
+            $m->{$key} = $value;
+        }
+        if(!$m->save()) return false;
+        
+        return $this->datamapper->getEntity($m->toArray());
     }
 
 }
