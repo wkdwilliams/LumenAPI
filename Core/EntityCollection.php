@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Illuminate\Support\Collection;
+
 class EntityCollection
 {
     /**
@@ -31,6 +33,11 @@ class EntityCollection
     public function getEntities(): array
     {
         return $this->entities;
+    }
+
+    public function toLaravelCollection(): Collection
+    {
+        return new Collection($this->entities);
     }
 
 

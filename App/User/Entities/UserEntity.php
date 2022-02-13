@@ -3,6 +3,7 @@
 namespace App\User\Entities;
 
 use Core\Entity;
+use Core\EntityCollection;
 
 class UserEntity extends Entity
 {
@@ -17,7 +18,7 @@ class UserEntity extends Entity
     private $email;
 
     /**
-     * @var
+     * @var EntityCollection
      */
     private $messages;
 
@@ -56,12 +57,12 @@ class UserEntity extends Entity
     /**
      * @return array
      */
-    public function getMessages(): array
+    public function getMessages(): EntityCollection
     {
         return $this->messages;
     }
 
-    public function setMessages(array $messages): void
+    public function setMessages(EntityCollection $messages): void
     {
         $this->messages = $messages;
     }

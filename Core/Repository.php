@@ -100,7 +100,7 @@ abstract class Repository
      */
     public function findById(string $id): Entity
     {
-        return $this->where(['id' => $id])->entity(); // Should return resource?
+        return $this->where(['id' => $id])->entity();
     }
 
     public function findByForeignId(string $foreignIdField, string $id): EntityCollection
@@ -134,7 +134,7 @@ abstract class Repository
 
         $collection = new EntityCollection();
 
-        foreach ($data as $d)
+        foreach ($data as $i => $d)
         {
             $collection->push($this->datamapper->getEntity($d));
         }

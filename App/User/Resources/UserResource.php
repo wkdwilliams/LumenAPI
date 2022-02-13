@@ -2,20 +2,22 @@
 
 namespace App\User\Resources;
 
-use Core\Resource;
+use App\Message\Resources\MessageCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends Resource
+class UserResource extends JsonResource
 {
 
     /**
      * @inheritDoc
      */
-    public function toArray($entity): array
+    public function toArray($request): array
     {
         return [
-            'id'    => $entity->getId(),
-            'name'  => $entity->getName(),
-            'email' => $entity->getEmail()
+            'id'        => $this->getId(),
+            'name'      => $this->getName(),
+            'email'     => $this->getEmail(),
+            'messages'  => new MessageCollection($this->getMessages())
         ];
     }
 }

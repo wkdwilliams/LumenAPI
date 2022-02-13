@@ -7,6 +7,7 @@ use App\Message\Models\Message;
 use App\Message\Repositories\MessageRepository;
 use App\User\Entities\UserEntity;
 use Core\DataMapper;
+use Illuminate\Support\Collection;
 
 class UserDataMapper extends DataMapper
 {
@@ -17,23 +18,13 @@ class UserDataMapper extends DataMapper
         $messages = (new MessageRepository(new MessageDataMapper(), new Message()))
             ->findByForeignId('user_id', $data['id']);
 
-        print_r([
-            'id'         => $data['id'],
-            'name'       => $data['name'],
-            'email'      => $data['email'],
-            'messages'   => $messages->getEntities(),
-            'created_at' => $data['created_at'],
-            'updated_at' => $data['updated_at']
-        ]);
-        exit();
-
         return [
             'id'         => $data['id'],
             'name'       => $data['name'],
             'email'      => $data['email'],
-            'messages'   => $messages->getEntities(),
+            'messages'   => $messages,
             'created_at' => $data['created_at'],
-            'updated_at' => $data['updated_at']
+            'updated_at' => $data['updated_at'],
         ];
     }
 

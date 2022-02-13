@@ -2,8 +2,10 @@
 
 namespace Core\Http\Controllers;
 
+use App\Message\Resources\MessageResource;
+use App\User\Models\User;
 use Core\Repository;
-use Core\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -19,11 +21,6 @@ class Controller extends BaseController
     protected Repository $repository;
 
     /**
-     * @var Resource
-     */
-    protected Resource $resource;
-
-    /**
      * Controller constructor.
      */
     public function __construct()
@@ -31,17 +28,16 @@ class Controller extends BaseController
         $this->repository = new $this->classes['repository'](
             new $this->classes['datamapper'](), new $this->classes['model']()
         );
-        $this->resource = new $this->classes['resource']();
     }
 
     /**
      * @param int $id
      * @return false|string
      */
-    public function get(int $id){
+    public function get(int $id): JsonResource{
         $repos = $this->repository->findById($id);
 
-        return $this->resource->output($repos);
+        return (new $this->classes['resource']($repos));
     }
 
 }

@@ -22,6 +22,7 @@ abstract class DataMapper
      */
     public function getEntity(array $data): Entity
     {
+        $this->entity = new $this->entity();
         return $this->entity->populate($this->fromRepository($data));
     }
 
