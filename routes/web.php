@@ -11,11 +11,14 @@
 |
 */
 
-use App\User\DataMappers\UserDataMapper;
-
 $router->get('/', function(){
     return "Front page of API";
 });
 
-$router->get('/user/{id}', '\App\User\Controllers\UserController@get');
-$router->get('/test', '\App\User\Controllers\UserController@test');
+$router->group(['prefix' => 'api'], function() use ($router){
+
+    $router->get('/user', '\App\User\Controllers\UserController@getAll');
+    $router->get('/user/{id}', '\App\User\Controllers\UserController@get');
+    $router->post('/user', '\App\User\Controllers\UserController@post');
+    
+});
