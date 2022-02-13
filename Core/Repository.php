@@ -111,11 +111,11 @@ abstract class Repository
     /**
      * @return Repository
      */
-    public function findAll(): Repository
+    public function findAll(): EntityCollection
     {
         $query = $this->getQuery()->whereNotNull('id');
 
-        return $this->setQuery($query);
+        return $this->setQuery($query)->entityCollection();
     }
 
     public function entity(): Entity

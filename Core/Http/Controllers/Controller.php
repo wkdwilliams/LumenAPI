@@ -34,10 +34,23 @@ class Controller extends BaseController
      * @param int $id
      * @return false|string
      */
-    public function get(int $id): JsonResource{
+    public function get(int $id): JsonResource
+    {
         $repos = $this->repository->findById($id);
 
-        return (new $this->classes['resource']($repos));
+        return new $this->classes['resource']($repos);
+    }
+
+    public function getAll()
+    {
+        $repos = $this->repository->findAll();
+
+        return new $this->classes['collection']($repos);
+    }
+
+    public function post()
+    {
+
     }
 
 }
