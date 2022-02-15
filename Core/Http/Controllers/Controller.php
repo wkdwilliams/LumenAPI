@@ -3,7 +3,9 @@
 namespace Core\Http\Controllers;
 
 use Core\Repository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -37,70 +39,78 @@ class Controller extends BaseController
         $this->request = $request;
     }
 
+    protected function response(JsonResource $resource)
+    {
+        return response()->json(['data' => $resource]);
+    }
+
     /**
      * Get resource by id
      * @param int $id
-     * @return false|string
+     * @return JsonResponse
      */
-    public function getResource(int $id): Response
+    public function getResource(int $id): JsonResponse
     {
         $repos = $this->repository->findById($id);
 
-        return Response(
+        return $this->response(
             new $this->classes['resource']($repos)
         );
     }
 
     /**
      * Get all resources
-     * @return Response
+     * @return JsonResponse
      */
-    public function getResources(): Response
+    public function getResources(): JsonResponse
     {
         $repos = $this->repository->findAll();
 
-        return Response(
+        return $this->response(
             new $this->classes['collection']($repos)
         );
     }
 
     /**
      * Create resource
-     * @return Response
+     * @return JsonResponse
      */
-    public function createResource(): Response
+    public function createResource(): JsonResponse
     {
         $data = $this->request->all();
 
         $repos = $this->repository->create($data);
 
-        return Response(
+        return $this->response(
             new $this->classes['resource']($repos)
         );
     }
 
     /**
      * Update resource
-     * @return Response
+     * @return JsonResponse
      */
-    public function updateResource(): Response
+    public function updateResource(): JsonResponse
     {
         $data = $this->request->all();
 
         $repos = $this->repository->update($data);
 
-        return Response(
+        return $this->response(
             new $this->classes['resource']($repos)
         );
     }
 
-    public function deleteResource()
+    /**
+     * @return JsonResponse
+     */
+    public function deleteResource(): JsonResponse
     {
         $data = $this->request->all();
 
         $repos = $this->repository->delete($data);
 
-        return Response(
+        return $this->response(
             new $this->classes['resource']($repos)
         );
     }
