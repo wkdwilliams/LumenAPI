@@ -5,7 +5,12 @@ WORKDIR /var/www/html
  
 # Install dependencies for the operating system software
 RUN apt-get update
-RUN docker-php-ext-install mysqli pdo pdo_mysql gd
-RUN apt-get install -y htop iputils-ping
+RUN apt-get -y install zlib1g-dev iputils-ping wget unzip
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Install composer
+RUN wget https://getcomposer.org/installer -O /tmp/composer-setup.php
+RUN php /tmp/composer-setup.php
+RUN mv composer.phar /usr/local/bin/composer
 
 RUN a2enmod rewrite
