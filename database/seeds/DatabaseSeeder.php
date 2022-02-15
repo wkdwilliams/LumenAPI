@@ -1,7 +1,5 @@
 <?php
 
-use App\Message\Models\Message;
-use App\User\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 5)->create();
-        factory(Message::class, 5)->create();
-        //$this->call(UserSeeder::class);
-        //$this->call(MessageSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(MessageSeeder::class);
     }
 }
