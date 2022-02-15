@@ -142,7 +142,7 @@ abstract class Repository
         $entity = $this->datamapper->toEntity($data);           // Convert our data into an entity for filtering & data manipulation
         $entity = $this->datamapper->fromEntity($entity);       // Convert our entity back into an array
 
-        $m = new $this->query();
+        $m = new $this->model();
         foreach ($entity as $key => $value) {
             $m->{$key} = $value;
         }
