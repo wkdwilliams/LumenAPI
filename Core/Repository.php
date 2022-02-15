@@ -108,7 +108,7 @@ abstract class Repository
      */
     public function entity(): Entity
     {
-        $data = $this->getQuery()->get()->toArray()[0];
+        $data = $this->getQuery()->first()->toArray();
 
         return $this->datamapper->getEntity($data);
     }
