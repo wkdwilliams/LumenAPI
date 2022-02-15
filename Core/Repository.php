@@ -140,7 +140,7 @@ abstract class Repository
     public function create(array $data): mixed
     {
         $entity = $this->datamapper->toEntity($data);           // Convert our data into an entity for filtering & data manipulation
-        $entity = $this->datamapper->fromApplication($entity);  // Convert our entity back into an array
+        $entity = $this->datamapper->fromEntity($entity);       // Convert our entity back into an array
 
         $m = new $this->query();
         foreach ($entity as $key => $value) {
@@ -159,13 +159,14 @@ abstract class Repository
     public function update(array $data): mixed
     {
         $newEntity  = $this->datamapper->toEntity($data);
-        $newEntity  = $this->datamapper->fromApplication($newEntity);
+        $newEntity  = $this->datamapper->fromEntity($newEntity);
 
         $m = $this->model::find($data['id']);
-        foreach ($newEntity as $key => $value) {
+        foreach ($data as $key => $value) {
             if($value == '') continue;
             $m->{$key} = $value;
         }
+
         if(!$m->save()) return false;
         
         return $this->datamapper->getEntity($m->toArray()); // Return the updated entity

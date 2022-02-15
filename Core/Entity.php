@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 abstract class Entity
