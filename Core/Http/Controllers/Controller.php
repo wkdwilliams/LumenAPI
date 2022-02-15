@@ -2,6 +2,12 @@
 
 namespace Core\Http\Controllers;
 
+use App\Image\DataMappers\ImageDataMapper;
+use App\Image\Models\Image;
+use App\Image\Repositories\ImageRepository;
+use App\Message\DataMappers\MessageDataMapper;
+use App\Message\Models\Message;
+use App\Message\Repositories\MessageRepository;
 use Core\Repository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,9 +57,6 @@ class Controller extends BaseController
      */
     public function getResource(int $id): JsonResponse
     {
-        // $user = new $this->classes['model']();
-        // $user = $user->where(['id' => $id])->first()->toArray();
-        // dd($user);
         $repos = $this->repository->findById($id);
 
         return $this->response(

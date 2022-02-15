@@ -1,25 +1,20 @@
 <?php
 
-namespace App\Message\DataMappers;
+namespace App\Image\DataMappers;
 
-use App\Image\DataMappers\ImageDataMapper;
-use App\Message\Entities\MessageEntity;
+use App\Image\Entities\ImageEntity;
 use Core\DataMapper;
 use Core\Entity;
 
-class MessageDataMapper extends DataMapper
+class ImageDataMapper extends DataMapper
 {
-    protected $entity = MessageEntity::class;
+    protected $entity = ImageEntity::class;
 
     protected function fromRepository(array $data): array
     {
-        $images = (new ImageDataMapper())
-                        ->getEntityCollection($data['images']);
-
         return [
             'id'         => $data['id'],
-            'message'    => $data['message'],
-            'images'     => $images,
+            'url'        => $data['url'],
             'created_at' => $data['created_at'],
             'updated_at' => $data['updated_at']
         ];

@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Message\Models\Message;
 use Faker\Generator as Faker;
 

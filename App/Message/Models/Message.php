@@ -2,14 +2,23 @@
 
 namespace App\Message\Models;
 
+use App\Image\Models\Image;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
     protected $table = "messages";
 
-    public function user()
+    protected $appends = [
+        'images'
+    ];
+
+    public function images()
     {
-        return $this->belongsTo('user', 'id');
+        return $this->hasMany(Image::class);
+    }
+    public function getImagesAttribute()
+    {
+        return $this->images()->get();
     }
 }

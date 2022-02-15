@@ -2,9 +2,8 @@
 
 namespace App\Message\Resources;
 
-use Core\Resource;
+use App\Image\Resources\ImageCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class MessageResource extends JsonResource
 {
@@ -16,7 +15,8 @@ class MessageResource extends JsonResource
     {
         return [
             'id'        => $this->getId(),
-            'message'   => $this->getMessage()
+            'message'   => $this->getMessage(),
+            'images'    => new ImageCollection($this->getImages())
         ];
     }
 }

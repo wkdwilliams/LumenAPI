@@ -15,7 +15,7 @@ class UserDataMapper extends DataMapper
     {
         $messages = (new MessageDataMapper())
                         ->getEntityCollection($data['messages']);
-    
+
         return [
             'id'         => $data['id'],
             'name'       => $data['name'],
