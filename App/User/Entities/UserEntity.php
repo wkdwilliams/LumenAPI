@@ -10,17 +10,17 @@ class UserEntity extends Entity
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      */
-    private $email;
+    private string $email;
 
     /**
      * @var EntityCollection
      */
-    private $messages;
+    private EntityCollection $messages;
 
     /**
      * @return string
