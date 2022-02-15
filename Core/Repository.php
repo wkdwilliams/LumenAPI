@@ -3,13 +3,8 @@
 namespace Core;
 
 use Core\DataMapper;
-use Core\Exceptions\RecordNotFoundException;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\RecordsNotFoundException;
-use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 
 abstract class Repository
 {
@@ -117,7 +112,7 @@ abstract class Repository
      */
     private function entity(): Entity
     {
-        $data = $this->getQuery()->first()->toArray();
+        $data = $this->getQuery()->first()->toArray(); // Should throw exception if no results found
 
         return $this->datamapper->getEntity($data);
     }
@@ -127,7 +122,7 @@ abstract class Repository
      */
     private function entityCollection(): EntityCollection
     {
-        $data = $this->getQuery()->get()->toArray();
+        $data = $this->getQuery()->get()->toArray(); // Should throw exception if no results found
 
         return $this->datamapper->getEntityCollection($data);
     }
@@ -146,7 +141,7 @@ abstract class Repository
         foreach ($entity as $key => $value) {
             $m->{$key} = $value;
         }
-        if(!$m->save()) return false;
+        if(!$m->save()) return false; // Should throw exception
         
         return $this->datamapper->getEntity($m->toArray()); //Return the created entity
     }
@@ -167,7 +162,7 @@ abstract class Repository
             $m->{$key} = $value;
         }
 
-        if(!$m->save()) return false;
+        if(!$m->save()) return false; // Should throw exception
         
         return $this->datamapper->getEntity($m->toArray()); // Return the updated entity
     }
@@ -182,7 +177,7 @@ abstract class Repository
         $entity = $this->findById($data['id']);
         
         if(!$this->model->where(['id' => $data['id']])->delete())
-            return false;
+            return false; // Should throw exception
 
         return $entity; // Return the entity we deleted
     }
