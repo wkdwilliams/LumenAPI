@@ -3,7 +3,7 @@
 namespace App\User\Models;
 
 use App\Message\Models\Message;
-use Illuminate\Database\Eloquent\Model;
+use Core\Model;
 
 class User extends Model
 {
@@ -11,6 +11,11 @@ class User extends Model
 
     protected $appends = [
         'messages'
+    ];
+
+    protected $casts = [
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d H:00',
     ];
 
     public function messages()

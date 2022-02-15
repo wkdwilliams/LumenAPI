@@ -2,7 +2,7 @@
 
 namespace App\Image\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Core\Model;
 
 class Image extends Model
 {

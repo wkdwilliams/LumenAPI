@@ -3,7 +3,7 @@
 namespace App\Message\Models;
 
 use App\Image\Models\Image;
-use Illuminate\Database\Eloquent\Model;
+use Core\Model;
 
 class Message extends Model
 {
