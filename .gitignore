@@ -6,3 +6,4 @@ Homestead.yaml
 .phpunit.result.cache
 build/docker/mysql/data
 build/docker/redis/data
+/composer.lock
