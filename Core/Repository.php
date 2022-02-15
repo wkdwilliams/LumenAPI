@@ -3,8 +3,12 @@
 namespace Core;
 
 use Core\DataMapper;
+use Core\Exceptions\RecordNotFoundException;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\RecordsNotFoundException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 abstract class Repository
@@ -109,7 +113,6 @@ abstract class Repository
     public function entity(): Entity
     {
         $data = $this->getQuery()->first()->toArray();
-        // dd($data);
 
         return $this->datamapper->getEntity($data);
     }
