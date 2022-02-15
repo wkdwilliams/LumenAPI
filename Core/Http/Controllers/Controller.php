@@ -51,6 +51,9 @@ class Controller extends BaseController
      */
     public function getResource(int $id): JsonResponse
     {
+        // $user = new $this->classes['model']();
+        // $user = $user->where(['id' => $id])->first()->toArray();
+        // dd($user);
         $repos = $this->repository->findById($id);
 
         return $this->response(

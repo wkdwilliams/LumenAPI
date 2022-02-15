@@ -109,6 +109,7 @@ abstract class Repository
     public function entity(): Entity
     {
         $data = $this->getQuery()->first()->toArray();
+        // dd($data);
 
         return $this->datamapper->getEntity($data);
     }
@@ -120,14 +121,7 @@ abstract class Repository
     {
         $data = $this->getQuery()->get()->toArray();
 
-        $collection = new EntityCollection();
-
-        foreach ($data as $d)
-        {
-            $collection->push($this->datamapper->getEntity($d));
-        }
-
-        return $collection;
+        return $this->datamapper->getEntityCollection($data);
     }
 
     /**

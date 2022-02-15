@@ -38,6 +38,18 @@ abstract class DataMapper
         return $this->entity->populate($this->toRepository($data));
     }
 
+    public function getEntityCollection(array $data): EntityCollection
+    {
+        $collection = new EntityCollection();
+
+        foreach ($data as $d)
+        {
+            $collection->push($this->getEntity($d));
+        }
+
+        return $collection;
+    }
+
     /**
      * Used for mapping data from a repository
      * @param array $data

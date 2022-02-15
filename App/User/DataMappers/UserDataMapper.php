@@ -3,8 +3,6 @@
 namespace App\User\DataMappers;
 
 use App\Message\DataMappers\MessageDataMapper;
-use App\Message\Models\Message;
-use App\Message\Repositories\MessageRepository;
 use App\User\Entities\UserEntity;
 use Core\DataMapper;
 use Core\Entity;
@@ -15,9 +13,9 @@ class UserDataMapper extends DataMapper
 
     protected function fromRepository(array $data): array
     {
-        $messages = (new MessageRepository(new MessageDataMapper(), new Message()))
-            ->findByForeignId('user_id', $data['id']);
-
+        $messages = (new MessageDataMapper())
+                        ->getEntityCollection($data['messages']);
+    
         return [
             'id'         => $data['id'],
             'name'       => $data['name'],
