@@ -47,8 +47,20 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        return parent::render($request, $exception);
+        if(env('APP_DEBUG'))
+            return parent::render($request, $e);
+
+        $errorResponse = [];
+        if($e->getMessage() == "Call to a member function toArray() on null")
+        {
+            $errorResponse = [
+                'status'  => 404,
+                'message' => $e->getMessage(),
+            ];
+        }
+        
+        return response()->json($errorResponse);
     }
 }
