@@ -25,7 +25,7 @@ class ImageDataMapper extends DataMapper
         return [];
     }
 
-    public function fromApplication(Entity $data): array
+    public function fromEntity(Entity $data): array
     {
         return [];
     }

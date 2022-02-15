@@ -34,7 +34,7 @@ class UserDataMapper extends DataMapper
         ];
     }
 
-    public function fromApplication(Entity $entity): array
+    public function fromEntity(Entity $entity): array
     {
         return [
             'name'  => $entity->getName(),

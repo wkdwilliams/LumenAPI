@@ -65,10 +65,10 @@ abstract class DataMapper
     abstract protected function toRepository(array $data): array;
 
     /**
-     * Used for mapping an entity to processed
+     * Used for mapping data from an entity
      * @param array $data
      * @return array
      */
-    abstract public function fromApplication(Entity $data): array;
+    abstract public function fromEntity(Entity $data): array;
 
 }
