@@ -65,6 +65,11 @@ abstract class Repository
         return $this->setQuery($this->getQuery()->orderBy($column, $direction));
     }
 
+    public function count(): int
+    {
+        return $this->getQuery()->count();
+    }
+
     /**
      * @param array $query
      * @return Repository
@@ -110,7 +115,7 @@ abstract class Repository
     /**
      * @return Entity
      */
-    public function entity(): Entity
+    private function entity(): Entity
     {
         $data = $this->getQuery()->first()->toArray();
 
@@ -120,7 +125,7 @@ abstract class Repository
     /**
      * @return EntityCollection
      */
-    public function entityCollection(): EntityCollection
+    private function entityCollection(): EntityCollection
     {
         $data = $this->getQuery()->get()->toArray();
 
