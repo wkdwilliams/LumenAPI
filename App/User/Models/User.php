@@ -13,11 +13,6 @@ class User extends Model
         'messages'
     ];
 
-    protected $casts = [
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'datetime:Y-m-d H:00',
-    ];
-
     public function messages()
     {
         return $this->hasMany(Message::class);
