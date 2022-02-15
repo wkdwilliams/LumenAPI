@@ -3,8 +3,8 @@
 namespace Core;
 
 use Core\DataMapper;
+use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository
 {
@@ -12,7 +12,7 @@ abstract class Repository
     /**
      * @var DataMapper
      */
-    protected $datamapper;
+    protected DataMapper $datamapper;
 
     /**
      * @var Builder
@@ -22,7 +22,7 @@ abstract class Repository
     /**
      * @var Model
      */
-    protected $model;
+    protected Model $model;
 
     public function __construct(DataMapper $dataMapper, Model $model)
     {
