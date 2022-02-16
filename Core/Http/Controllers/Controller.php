@@ -2,17 +2,10 @@
 
 namespace Core\Http\Controllers;
 
-use App\Image\DataMappers\ImageDataMapper;
-use App\Image\Models\Image;
-use App\Image\Repositories\ImageRepository;
-use App\Message\DataMappers\MessageDataMapper;
-use App\Message\Models\Message;
-use App\Message\Repositories\MessageRepository;
-use Core\Repository;
+use Core\Service;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -23,9 +16,9 @@ class Controller extends BaseController
     protected array $classes;
 
     /**
-     * @var Repository
+     * @var Service
      */
-    protected Repository $repository;
+    protected Service $service;
 
     /**
      * @var Request
@@ -38,8 +31,10 @@ class Controller extends BaseController
      */
     public function __construct(Request $request)
     {
-        $this->repository = new $this->classes['repository'](
-            new $this->classes['datamapper'](), new $this->classes['model']()
+        $this->service = new $this->classes['service'](
+            new $this->classes['repository'](
+                new $this->classes['datamapper'](), new $this->classes['model']()
+            )
         );
 
         $this->request = $request;
@@ -57,7 +52,7 @@ class Controller extends BaseController
      */
     public function getResource(int $id): JsonResponse
     {
-        $repos = $this->repository->findById($id);
+        $repos = $this->service->getResourceById($id);
 
         return $this->response(
             new $this->classes['resource']($repos)
@@ -70,7 +65,7 @@ class Controller extends BaseController
      */
     public function getResources(): JsonResponse
     {
-        $repos = $this->repository->findAll();
+        $repos = $this->service->getResources();
 
         return $this->response(
             new $this->classes['collection']($repos)
@@ -85,7 +80,7 @@ class Controller extends BaseController
     {
         $data = $this->request->all();
 
-        $repos = $this->repository->create($data);
+        $repos = $this->service->createResource($data);
 
         return $this->response(
             new $this->classes['resource']($repos)
@@ -100,7 +95,7 @@ class Controller extends BaseController
     {
         $data = $this->request->all();
 
-        $repos = $this->repository->update($data);
+        $repos = $this->service->updateResource($data);
 
         return $this->response(
             new $this->classes['resource']($repos)
@@ -114,7 +109,7 @@ class Controller extends BaseController
     {
         $data = $this->request->all();
 
-        $repos = $this->repository->delete($data);
+        $repos = $this->service->deleteResource($data);
 
         return $this->response(
             new $this->classes['resource']($repos)

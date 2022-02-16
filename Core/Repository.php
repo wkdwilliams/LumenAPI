@@ -98,7 +98,7 @@ abstract class Repository
     }
 
     /**
-     * @return Repository
+     * @return EntityCollection
      */
     public function findAll(): EntityCollection
     {
