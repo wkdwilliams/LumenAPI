@@ -9,6 +9,7 @@
         "ext-json": "*",
         "laravel/legacy-factories": "^1.3",
         "laravel/lumen-framework": "^8.0",
+        "laravel/passport": "^10.3",
         "laravel/tinker": "^2.7"
     },
     "require-dev": {

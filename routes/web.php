@@ -15,6 +15,10 @@ $router->get('/', function(){
     return "Front page of API";
 });
 
+$router->get('/test', ['middleware' => ['auth'], function() use ($router){
+    dd('Success');
+}]);
+
 $router->group(['prefix' => 'api'], function() use ($router){
 
     $router->get('/user'        , '\App\User\Controllers\UserController@getResources');

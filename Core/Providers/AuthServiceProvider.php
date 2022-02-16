@@ -2,7 +2,7 @@
 
 namespace Core\Providers;
 
-use Core\User;
+use App\User\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
