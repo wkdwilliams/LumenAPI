@@ -52,6 +52,7 @@ use App\@@@@@@@@@@@@\Models\@@@@@@@@@@@@;
 use App\@@@@@@@@@@@@\Repositories\@@@@@@@@@@@@Repository;
 use App\@@@@@@@@@@@@\Resources\@@@@@@@@@@@@Collection;
 use App\@@@@@@@@@@@@\Resources\@@@@@@@@@@@@Resource;
+use App\@@@@@@@@@@@@\Services\@@@@@@@@@@@@;
 use Core\Http\Controllers\Controller;
     
 class @@@@@@@@@@@@Controller extends Controller
@@ -62,6 +63,7 @@ class @@@@@@@@@@@@Controller extends Controller
         'repository' => @@@@@@@@@@@@Repository::class,
         'resource'   => @@@@@@@@@@@@Resource::class,
         'collection' => @@@@@@@@@@@@Collection::class,
+        'service'    => @@@@@@@@@@@@Service::class,
         'model'      => @@@@@@@@@@@@::class,
     ];
     
@@ -128,7 +130,7 @@ class @@@@@@@@@@@@Resource extends JsonResource
     }
 }";
 
-private $collection_template = "<?php
+    private $collection_template = "<?php
 
 namespace App\@@@@@@@@@@@@\Resources;
     
@@ -145,6 +147,17 @@ class @@@@@@@@@@@@Collection extends ResourceCollection
     }
     
 }";
+
+    private $service_template = "<?php
+
+    namespace App\@@@@@@@@@@@@\Services;
+    
+    use Core\Service;
+    
+    class @@@@@@@@@@@@Service extends Service
+    {
+        
+    }";
 
     private const REPLACER = "@@@@@@@@@@@@";
 
@@ -163,6 +176,7 @@ class @@@@@@@@@@@@Collection extends ResourceCollection
         $this->repositories_template    = str_replace(self::REPLACER, $_name, $this->repositories_template);
         $this->resource_template        = str_replace(self::REPLACER, $_name, $this->resource_template);
         $this->collection_template      = str_replace(self::REPLACER, $_name, $this->collection_template);
+        $this->service_template         = str_replace(self::REPLACER, $_name, $this->service_template);
         
         mkdir($_base.$_name);
 
@@ -174,6 +188,7 @@ class @@@@@@@@@@@@Collection extends ResourceCollection
         mkdir($_base."Models");
         mkdir($_base."Repositories");
         mkdir($_base."Resources");
+        mkdir($_base."Services");
 
         file_put_contents($_base."DataMappers/{$_name}DataMapper.php"   , $this->datamapper_template);
         file_put_contents($_base."Controllers/{$_name}Controller.php"   , $this->controller_template);
@@ -182,6 +197,7 @@ class @@@@@@@@@@@@Collection extends ResourceCollection
         file_put_contents($_base."Repositories/{$_name}Repository.php"  , $this->repositories_template);
         file_put_contents($_base."Resources/{$_name}Resource.php"       , $this->resource_template);
         file_put_contents($_base."Resources/{$_name}Collection.php"     , $this->collection_template);
+        file_put_contents($_base."Services/{$_name}Service.php"         , $this->service_template);
 
         $this->info('Resource Created');
 
