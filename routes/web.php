@@ -15,11 +15,16 @@ $router->get('/', function(){
     return "Front page of API";
 });
 
-$router->get('/test', ['middleware' => ['auth'], function() use ($router){
-    dd('Success');
-}]);
-
 $router->group(['prefix' => 'api'], function() use ($router){
+
+    // Test authentication
+    $router->group(['middleware' => ['auth']], function() use ($router){
+
+        $router->get('/test', function(){
+            dd('Success');
+        });
+        
+    });
 
     $router->get('/user'        , '\App\User\Controllers\UserController@getResources');
     $router->get('/user/{id}'   , '\App\User\Controllers\UserController@getResource');
