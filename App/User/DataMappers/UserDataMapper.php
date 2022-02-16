@@ -21,6 +21,7 @@ class UserDataMapper extends DataMapper
             'name'       => $data['name'],
             'email'      => $data['email'],
             'messages'   => $messages,
+            'api_token'  => $data['api_token'],
             'created_at' => $data['created_at'],
             'updated_at' => $data['updated_at'],
         ];
@@ -29,16 +30,18 @@ class UserDataMapper extends DataMapper
     protected function toRepository(array $data): array
     {
         return [
-            'name'  => $data['name'] ?? '',
-            'email' => $data['email'] ?? ''
+            'name'      => $data['name'] ?? '',
+            'email'     => $data['email'] ?? '',
+            'api_token' => $data['api_token'] ?? ''
         ];
     }
 
     public function fromEntity(Entity $entity): array
     {
         return [
-            'name'  => $entity->getName(),
-            'email' => $entity->getEmail()
+            'name'      => $entity->getName(),
+            'email'     => $entity->getEmail(),
+            'api_token' => $entity->getApiToken()
         ];
     }
 

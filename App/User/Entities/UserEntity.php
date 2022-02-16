@@ -18,6 +18,11 @@ class UserEntity extends Entity
     private string $email;
 
     /**
+     * @var string
+     */
+    private string $apiToken;
+
+    /**
      * @var EntityCollection
      */
     private EntityCollection $messages;
@@ -52,6 +57,16 @@ class UserEntity extends Entity
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    public function getApiToken(): string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(string $token): void
+    {
+        $this->apiToken = $token;
     }
 
     /**

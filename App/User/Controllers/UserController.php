@@ -7,6 +7,7 @@ use App\User\Models\User;
 use App\User\Repositories\UserRepository;
 use App\User\Resources\UserCollection;
 use App\User\Resources\UserResource;
+use App\User\Services\UserService;
 use Core\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -17,6 +18,7 @@ class UserController extends Controller
         'repository' => UserRepository::class,
         'resource'   => UserResource::class,
         'collection' => UserCollection::class,
+        'service'    => UserService::class,
         'model'      => User::class,
     ];
 
