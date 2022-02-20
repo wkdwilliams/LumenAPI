@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use Carbon\Carbon;
 use Core\DataMapper;
 use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -86,7 +85,7 @@ abstract class Repository
 
     /**
      * @param string $id
-     * @return Entity
+     * @return Repository
      */
     public function findById(string $id): Repository
     {
@@ -183,9 +182,8 @@ abstract class Repository
             $m->{$key} = $value;
         }
 
-        $m->updated_at = Carbon::now(); // Update our update field
-
         if(!$m->save()) return false; // Should throw exception
+        $m->touch();
         
         return $this->datamapper->getEntity($m->toArray()); // Return the updated entity
     }
@@ -197,7 +195,7 @@ abstract class Repository
      */
     public function delete(array $data): mixed
     {
-        $entity = $this->findById($data['id']);
+        $entity = $this->findById($data['id'])->entity();
         
         if(!$this->model->where(['id' => $data['id']])->delete())
             return false; // Should throw exception
