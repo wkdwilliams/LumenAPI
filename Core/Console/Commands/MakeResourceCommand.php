@@ -87,7 +87,7 @@ class @@@@@@@@@@@@Entity extends Entity
 
 namespace App\@@@@@@@@@@@@\Models;
     
-use Illuminate\Database\Eloquent\Model;
+use Core\Model;
     
 class @@@@@@@@@@@@ extends Model
 {
