@@ -150,14 +150,14 @@ class @@@@@@@@@@@@Collection extends ResourceCollection
 
     private $service_template = "<?php
 
-    namespace App\@@@@@@@@@@@@\Services;
+namespace App\@@@@@@@@@@@@\Services;
     
-    use Core\Service;
+use Core\Service;
     
-    class @@@@@@@@@@@@Service extends Service
-    {
+class @@@@@@@@@@@@Service extends Service
+{
         
-    }";
+}";
 
     private const REPLACER = "@@@@@@@@@@@@";
 
