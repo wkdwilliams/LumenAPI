@@ -92,9 +92,26 @@ abstract class Repository
         return $this->where(['id' => $id]);
     }
 
+    /**
+     * @param string $foreignIdField
+     * @param string $id
+     * 
+     * @return Repository
+     */
     public function findByForeignId(string $foreignIdField, string $id): Repository
     {
         return $this->where([$foreignIdField => $id]);
+    }
+
+    /**
+     * @param string $columnName
+     * @param string $value
+     * 
+     * @return Repository
+     */
+    public function findByColumn(string $columnName, string $value): Repository
+    {
+        return $this->where([$columnName => $value]);
     }
 
     /**
