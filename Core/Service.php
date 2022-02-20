@@ -12,7 +12,7 @@ abstract class Service
     /**
      * @var Repository
      */
-    private Repository $repository;
+    protected Repository $repository;
 
     function __construct(Repository $repository)
     {
@@ -26,7 +26,7 @@ abstract class Service
      */
     public function getResourceById(string $id): Entity
     {
-        return $this->repository->findById($id);
+        return $this->repository->findById($id)->entity();
     }
 
     /**
@@ -34,7 +34,7 @@ abstract class Service
      */
     public function getResources(): EntityCollection
     {
-        return $this->repository->findAll();
+        return $this->repository->findAll()->entityCollection();
     }
 
     /**

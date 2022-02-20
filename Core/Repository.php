@@ -87,30 +87,30 @@ abstract class Repository
      * @param string $id
      * @return Entity
      */
-    public function findById(string $id): Entity
+    public function findById(string $id): Repository
     {
-        return $this->where(['id' => $id])->entity();
+        return $this->where(['id' => $id]);
     }
 
-    public function findByForeignId(string $foreignIdField, string $id): EntityCollection
+    public function findByForeignId(string $foreignIdField, string $id): Repository
     {
-        return $this->where([$foreignIdField => $id])->entityCollection();
+        return $this->where([$foreignIdField => $id]);
     }
 
     /**
      * @return EntityCollection
      */
-    public function findAll(): EntityCollection
+    public function findAll(): Repository
     {
         $query = $this->getQuery()->whereNotNull('id');
 
-        return $this->setQuery($query)->entityCollection();
+        return $this->setQuery($query);
     }
 
     /**
      * @return Entity
      */
-    private function entity(): Entity
+    public function entity(): Entity
     {
         $data = $this->getQuery()->first()->toArray(); // Should throw exception if no results found
 
@@ -120,7 +120,7 @@ abstract class Repository
     /**
      * @return EntityCollection
      */
-    private function entityCollection(): EntityCollection
+    public function entityCollection(): EntityCollection
     {
         $data = $this->getQuery()->get()->toArray(); // Should throw exception if no results found
 
