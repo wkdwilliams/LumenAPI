@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Carbon\Carbon;
 use Core\DataMapper;
 use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -170,14 +171,19 @@ abstract class Repository
      */
     public function update(array $data): mixed
     {
-        $newEntity  = $this->datamapper->toEntity($data);
-        $newEntity  = $this->datamapper->fromEntity($newEntity);
-
         $m = $this->model::find($data['id']);
+
         foreach ($data as $key => $value) {
-            if($value == '') continue;
+            // Make sure we're not updating things
+            // The user shouldn't be allowed to do.
+            if($key == 'id')         continue;
+            if($key == 'created_at') continue;
+            if($key == 'updated_at') continue;
+            if($value == '')         continue;
             $m->{$key} = $value;
         }
+
+        $m->updated_at = Carbon::now(); // Update our update field
 
         if(!$m->save()) return false; // Should throw exception
         
