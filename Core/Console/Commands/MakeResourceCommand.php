@@ -35,7 +35,7 @@ class @@@@@@@@@@@@DataMapper extends DataMapper
         return [];
     }
     
-    public function fromApplication(Entity \$data): array
+    public function fromEntity(Entity \$data): array
     {
         return [];
     }
@@ -52,7 +52,7 @@ use App\@@@@@@@@@@@@\Models\@@@@@@@@@@@@;
 use App\@@@@@@@@@@@@\Repositories\@@@@@@@@@@@@Repository;
 use App\@@@@@@@@@@@@\Resources\@@@@@@@@@@@@Collection;
 use App\@@@@@@@@@@@@\Resources\@@@@@@@@@@@@Resource;
-use App\@@@@@@@@@@@@\Services\@@@@@@@@@@@@;
+use App\@@@@@@@@@@@@\Services\@@@@@@@@@@@@Service;
 use Core\Http\Controllers\Controller;
     
 class @@@@@@@@@@@@Controller extends Controller
@@ -193,7 +193,7 @@ class @@@@@@@@@@@@Collection extends ResourceCollection
         file_put_contents($_base."DataMappers/{$_name}DataMapper.php"   , $this->datamapper_template);
         file_put_contents($_base."Controllers/{$_name}Controller.php"   , $this->controller_template);
         file_put_contents($_base."Entities/{$_name}Entity.php"          , $this->entities_template);
-        file_put_contents($_base."Models/{$_name}Model.php"             , $this->model_template);
+        file_put_contents($_base."Models/{$_name}.php"             , $this->model_template);
         file_put_contents($_base."Repositories/{$_name}Repository.php"  , $this->repositories_template);
         file_put_contents($_base."Resources/{$_name}Resource.php"       , $this->resource_template);
         file_put_contents($_base."Resources/{$_name}Collection.php"     , $this->collection_template);
