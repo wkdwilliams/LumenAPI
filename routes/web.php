@@ -20,12 +20,15 @@ $router->group(['prefix' => 'api'], function() use ($router){
     // Test authentication
     $router->group(['middleware' => ['auth']], function() use ($router){
 
-        $router->get('/test', function(){
-            dd('Success');
-        });
+        $router->get('/product'        , '\App\Product\Controllers\ProductController@getResources');
+        $router->get('/product/{id}'   , '\App\Product\Controllers\ProductController@getResource');
+        $router->post('/product'       , '\App\Product\Controllers\ProductController@createResource');
+        $router->put('/product'        , '\App\Product\Controllers\ProductController@updateResource');
+        $router->delete('/product'     , '\App\Product\Controllers\ProductController@deleteResource');
         
     });
 
+    // Users
     $router->get('/user'        , '\App\User\Controllers\UserController@getResources');
     $router->get('/user/{id}'   , '\App\User\Controllers\UserController@getResource');
     $router->post('/user'       , '\App\User\Controllers\UserController@createResource');
