@@ -23,13 +23,8 @@ class UserController extends Controller
         'model'      => User::class,
     ];
 
-    public function updateResource(): JsonResponse
-    {
-        // Check we're not trying to update the api_token
-        if (isset($this->request->api_token))
-            $this->request->request->remove('api_token');
-
-        return parent::updateResource();
-    }
+    protected array $guardedUpdateFields = [
+        'api_token'
+    ];
 
 }

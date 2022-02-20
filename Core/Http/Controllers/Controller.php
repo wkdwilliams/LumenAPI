@@ -23,7 +23,13 @@ class Controller extends BaseController
     /**
      * @var Request
      */
-    protected $request;
+    protected Request $request;
+
+    /**
+     * The fields that we don't want users to update
+     * @var array
+     */
+    protected array $guardedUpdateFields = [];
 
     /**
      * Controller constructor.
@@ -93,6 +99,10 @@ class Controller extends BaseController
      */
     public function updateResource(): JsonResponse
     {
+        foreach ($this->guardedUpdateFields as $field) {
+            $this->request->request->remove($field);
+        }
+
         $data = $this->request->all();
 
         $repos = $this->service->updateResource($data);
