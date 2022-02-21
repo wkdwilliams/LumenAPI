@@ -48,7 +48,10 @@ class Controller extends BaseController
 
     protected function response(JsonResource $resource)
     {
-        return response()->json(['data' => $resource]);
+        return response()->json([
+            'status' => 200,
+            'data'   => $resource
+        ]);
     }
 
     /**

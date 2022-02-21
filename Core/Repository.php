@@ -129,7 +129,7 @@ abstract class Repository
      */
     public function entity(): Entity
     {
-        $data = $this->getQuery()->first()->toArray(); // Should throw exception if no results found
+        $data = $this->getQuery()->first()->toArray();
 
         return $this->datamapper->getEntity($data);
     }
@@ -139,7 +139,7 @@ abstract class Repository
      */
     public function entityCollection(): EntityCollection
     {
-        $data = $this->getQuery()->get()->toArray(); // Should throw exception if no results found
+        $data = $this->getQuery()->get()->toArray();
 
         return $this->datamapper->getEntityCollection($data);
     }
