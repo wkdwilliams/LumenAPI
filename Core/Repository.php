@@ -24,11 +24,17 @@ abstract class Repository
      */
     protected Model $model;
 
-    public function __construct(DataMapper $dataMapper, Model $model)
+    /**
+     * @var int
+     */
+    protected int $paginate;
+
+    public function __construct(DataMapper $dataMapper, Model $model, int $paginate=0)
     {
         $this->query        = $model;
         $this->model        = $model;
         $this->datamapper   = $dataMapper;
+        $this->paginate     = $paginate;
     }
 
     /**
@@ -139,7 +145,8 @@ abstract class Repository
      */
     public function entityCollection(): EntityCollection
     {
-        $data = $this->getQuery()->get()->toArray();
+        if($this->paginate > 0) $data = $this->getQuery()->paginate()->toArray()['data'];
+        else $data = $this->getQuery()->get()->toArray();
 
         return $this->datamapper->getEntityCollection($data);
     }

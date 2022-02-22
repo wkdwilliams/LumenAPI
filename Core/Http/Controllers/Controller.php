@@ -32,6 +32,11 @@ class Controller extends BaseController
     protected array $guardedUpdateFields = [];
 
     /**
+     * @var int
+     */
+    protected int $paginate = 0;
+
+    /**
      * Controller constructor.
      * @param Request $request
      */
@@ -39,7 +44,7 @@ class Controller extends BaseController
     {
         $this->service = new $this->classes['service'](
             new $this->classes['repository'](
-                new $this->classes['datamapper'](), new $this->classes['model']()
+                new $this->classes['datamapper'](), new $this->classes['model'](), $this->paginate
             )
         );
 
