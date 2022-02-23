@@ -48,6 +48,12 @@ class Controller extends BaseController
             )
         );
 
+        // We don't want a user updating these fields
+        foreach (['updated_at', 'created_at'] as $v) {
+            if(!in_array($v, $this->guardedUpdateFields))
+                $this->guardedUpdateFields[] = $v;
+        }
+
         $this->request = $request;
     }
 
