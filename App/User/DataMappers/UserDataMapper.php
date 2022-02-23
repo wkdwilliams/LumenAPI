@@ -39,9 +39,12 @@ class UserDataMapper extends DataMapper
     public function fromEntity(Entity $entity): array
     {
         return [
-            'name'      => $entity->getName(),
-            'email'     => $entity->getEmail(),
-            'api_token' => $entity->getApiToken()
+            'id'            => $entity->getId(),
+            'name'          => $entity->getName(),
+            'email'         => $entity->getEmail(),
+            'api_token'     => $entity->getApiToken(),
+            'created_at'    => $entity->getCreatedAt(),
+            'updated_at'    => $entity->getUpdatedAt()
         ];
     }
 

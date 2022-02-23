@@ -171,12 +171,17 @@ abstract class Repository
     }
 
     /**
-     * @param array $data
+     * @param array|Entity $data
      * 
      * @return mixed
      */
-    public function update(array $data): mixed
+    public function update($data): mixed
     {
+        if($data instanceof Entity)
+        {
+            $data = $this->datamapper->fromEntity($data);
+        }
+
         $m = $this->model::find($data['id']);
 
         foreach ($data as $key => $value) {
