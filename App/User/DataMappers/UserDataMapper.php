@@ -32,19 +32,16 @@ class UserDataMapper extends DataMapper
         return [
             'name'      => $data['name'] ?? '',
             'email'     => $data['email'] ?? '',
-            'api_token' => $data['api_token'] ?? ''
+            'api_token' => \Illuminate\Support\Str::uuid()
         ];
     }
 
     public function fromEntity(Entity $entity): array
     {
         return [
-            'id'            => $entity->getId(),
             'name'          => $entity->getName(),
             'email'         => $entity->getEmail(),
-            'api_token'     => $entity->getApiToken(),
-            'created_at'    => $entity->getCreatedAt(),
-            'updated_at'    => $entity->getUpdatedAt()
+            'api_token'     => $entity->getApiToken()
         ];
     }
 
