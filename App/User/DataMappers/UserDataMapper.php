@@ -14,7 +14,7 @@ class UserDataMapper extends DataMapper
     protected function fromRepository(array $data): array
     {
         $messages = (new MessageDataMapper())
-                        ->getEntityCollection($data['messages']);
+                        ->repoToEntityCollection($data['messages']);
 
         return [
             'id'         => $data['id'],
@@ -32,13 +32,14 @@ class UserDataMapper extends DataMapper
         return [
             'name'      => $data['name'] ?? '',
             'email'     => $data['email'] ?? '',
-            'api_token' => \Illuminate\Support\Str::uuid()
+            'api_token' => $data['api_token'] ?? \Illuminate\Support\Str::uuid()
         ];
     }
 
     public function fromEntity(Entity $entity): array
     {
         return [
+            'id'            => $entity->getId(),
             'name'          => $entity->getName(),
             'email'         => $entity->getEmail(),
             'api_token'     => $entity->getApiToken()

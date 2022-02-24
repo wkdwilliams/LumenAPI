@@ -14,7 +14,7 @@ class MessageDataMapper extends DataMapper
     protected function fromRepository(array $data): array
     {
         $images = (new ImageDataMapper())
-                        ->getEntityCollection($data['images']);
+                        ->repoToEntityCollection($data['images']);
 
         return [
             'id'         => $data['id'],
@@ -30,7 +30,7 @@ class MessageDataMapper extends DataMapper
         return [];
     }
 
-    public function fromEntity(Entity $data): array
+    protected function fromEntity(Entity $data): array
     {
         return [];
     }

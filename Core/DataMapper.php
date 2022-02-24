@@ -21,30 +21,47 @@ abstract class DataMapper
      * @param array $data
      * @return Entity
      */
-    public function getEntity(array $data): Entity
+    public function repoToEntity(array $data): Entity
     {
         $this->entity = new $this->entity();
         return $this->entity->populate($this->fromRepository($data));
     }
 
     /**
-     * Used when populating an entity with data sent by a client
+     * Used when populating an entity with array data
      * @param array $data
      * @return Entity
      */
-    public function toEntity(array $data): Entity
+    public function arrayToEntity(array $data): Entity
     {
         $this->entity = new $this->entity();
         return $this->entity->populate($this->toRepository($data));
     }
 
-    public function getEntityCollection(array $data): EntityCollection
+    /**
+     * Used when converting an Entity to array data
+     * @param Entity $entity
+     * 
+     * @return array
+     */
+    public function entityToArray(Entity $entity): array
+    {
+        return $this->fromEntity($entity);
+    }
+
+    /**
+     * Used when converting multiple repository results to an entity collection
+     * @param array $data
+     * 
+     * @return EntityCollection
+     */
+    public function repoToEntityCollection(array $data): EntityCollection
     {
         $collection = new EntityCollection();
 
         foreach ($data as $d)
         {
-            $collection->push($this->getEntity($d));
+            $collection->push($this->repoToEntity($d));
         }
 
         return $collection;
@@ -69,6 +86,6 @@ abstract class DataMapper
      * @param array $data
      * @return array
      */
-    abstract public function fromEntity(Entity $data): array;
+    abstract protected function fromEntity(Entity $entity): array;
 
 }

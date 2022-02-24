@@ -26,7 +26,7 @@ class ProductDataMapper extends DataMapper
         return [];
     }
     
-    public function fromEntity(Entity $data): array
+    protected function fromEntity(Entity $data): array
     {
         return [];
     }

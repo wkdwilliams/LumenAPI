@@ -130,14 +130,12 @@ abstract class Repository
         return $this->setQuery($query);
     }
 
-    /**
-     * @return Entity
-     */
-    public function entity(): Entity
+ 
+    public function entity(): ?Entity
     {
         $data = $this->getQuery()->first()->toArray();
 
-        return $this->datamapper->getEntity($data);
+        return $this->datamapper->repoToEntity($data);
     }
 
     /**
@@ -148,43 +146,57 @@ abstract class Repository
         if($this->paginate > 0) $data = $this->getQuery()->paginate()->toArray()['data'];
         else $data = $this->getQuery()->get()->toArray();
 
-        return $this->datamapper->getEntityCollection($data);
+        return $this->datamapper->repoToEntityCollection($data);
     }
 
     /**
-     * @param array $data
+     * @param array|Entity $data
      * 
      * @return mixed
      */
-    public function create(array $data): mixed
+    public function create($data): mixed
     {
-        $entity = $this->datamapper->toEntity($data);           // Convert our data into an entity for filtering & data manipulation
-        $entity = $this->datamapper->fromEntity($entity);       // Convert our entity back into an array
+        if ($data instanceof Entity) {
+            $data = $this->datamapper->entityToArray($data);    // Convert entity to array to prepare for the model
+        } else{
+            $data = $this->datamapper->arrayToEntity($data);    // We must convert array to entity for mapping purposes.
+            $data = $this->datamapper->entityToArray($data);    // Then we convert the entity back to array for model.
+        }
 
         $m = new $this->model();
-        foreach ($entity as $key => $value) {
+
+        foreach ($data as $key => $value) {
             $m->{$key} = $value;
         }
         if(!$m->save()) return false; // Should throw exception
         
-        return $this->datamapper->getEntity($m->toArray()); //Return the created entity
+        return $this->datamapper->repoToEntity($m->toArray()); //Return the created entity
     }
 
     /**
-     * @param array $data
+     * @param array|Entity $data
      * 
      * @return mixed
      */
-    public function update(array $data): mixed
+    public function update($data): mixed
     {
+        if($data instanceof Entity)
+        {
+            $data = $this->datamapper->entityToArray($data);
+        }
+
+
+
         $m = $this->model::find($data['id']);
+        if($m === null)
+        {
+            // Throw resource not found error here!
+        }
 
         foreach ($data as $key => $value) {
             // Make sure we're not updating things
-            // The user shouldn't be allowed to do.
+            // The user shouldn't be allowed update.
             if($key == 'id')         continue;
-            if($key == 'created_at') continue;
-            if($key == 'updated_at') continue;
             if($value == '')         continue;
             $m->{$key} = $value;
         }
@@ -192,7 +204,7 @@ abstract class Repository
         if(!$m->save()) return false; // Should throw exception
         $m->touch();
         
-        return $this->datamapper->getEntity($m->toArray()); // Return the updated entity
+        return $this->datamapper->repoToEntity($m->toArray()); // Return the updated entity
     }
 
     /**
