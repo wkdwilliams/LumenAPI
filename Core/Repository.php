@@ -181,9 +181,7 @@ abstract class Repository
     public function update($data): mixed
     {
         if($data instanceof Entity)
-        {
             $data = $this->datamapper->entityToArray($data);    // Convert our Entity to array ready for the model
-        }
 
         $m = $this->model::find($data['id']);
         if($m === null)
