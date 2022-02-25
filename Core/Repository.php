@@ -66,9 +66,17 @@ abstract class Repository
         return $this->setQuery($this->getQuery()->orderBy($column, $direction));
     }
 
+    /**
+     * @return int
+     */
     public function count(): int
     {
         return $this->getQuery()->count();
+    }
+
+    public function limit(int $amount): Repository
+    {
+        return $this->setQuery($this->getQuery()->limit($amount));
     }
 
     /**
