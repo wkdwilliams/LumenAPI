@@ -27,7 +27,7 @@ abstract class Repository
     /**
      * @var int
      */
-    protected int $paginate;
+    private int $paginate;
 
     public function __construct(DataMapper $dataMapper, Model $model, int $paginate=0)
     {
@@ -143,7 +143,7 @@ abstract class Repository
      */
     public function entityCollection(): EntityCollection
     {
-        if($this->paginate > 0) $data = $this->getQuery()->paginate()->toArray()['data'];
+        if($this->paginate > 0) $data = $this->getQuery()->paginate($this->paginate)->toArray()['data'];
         else $data = $this->getQuery()->get()->toArray();
 
         return $this->datamapper->repoToEntityCollection($data);
@@ -195,7 +195,7 @@ abstract class Repository
 
         foreach ($data as $key => $value) {
             // Make sure we're not updating things
-            // The user shouldn't be allowed update.
+            // The user shouldn't be allowed to update.
             if($key == 'id')         continue;
             if($value == '')         continue;
             $m->{$key} = $value;
