@@ -93,7 +93,7 @@ use Core\Model;
     
 class @@@@@@@@@@@@ extends Model
 {
-    protected \$table = \"TABLENAME\";
+    protected \$table = \"!!!!!!!!!!!!!\";
     
     protected \$appends = [
             
@@ -161,7 +161,34 @@ class @@@@@@@@@@@@Service extends Service
         
 }";
 
-    private const REPLACER = "@@@@@@@@@@@@";
+    private $factory_template = "<?php
+
+use App\@@@@@@@@@@@@\Models\@@@@@@@@@@@@;
+use Faker\Generator as Faker;
+    
+\$factory->define(@@@@@@@@@@@@::class, function (Faker \$faker) {
+    return [
+    
+    ];
+});
+";
+
+    private $seeder_template = "<?php
+
+use App\@@@@@@@@@@@@\Models\@@@@@@@@@@@@;
+use Illuminate\Database\Seeder;
+    
+class @@@@@@@@@@@@Seeder extends Seeder
+{
+    public function run()
+    {
+        factory(@@@@@@@@@@@@::class, 1)->create();
+    }
+}
+";
+
+    private const REPLACER          = "@@@@@@@@@@@@";
+    private const TABLENAMEREPLACER = "!!!!!!!!!!!!!";
 
     public function handle()
     {
@@ -171,6 +198,7 @@ class @@@@@@@@@@@@Service extends Service
         $_name = $this->argument('name');
         $_name = ucfirst($_name);
 
+        // Set namespaces & class names
         $this->datamapper_template      = str_replace(self::REPLACER, $_name, $this->datamapper_template);
         $this->controller_template      = str_replace(self::REPLACER, $_name, $this->controller_template);
         $this->entities_template        = str_replace(self::REPLACER, $_name, $this->entities_template);
@@ -179,7 +207,13 @@ class @@@@@@@@@@@@Service extends Service
         $this->resource_template        = str_replace(self::REPLACER, $_name, $this->resource_template);
         $this->collection_template      = str_replace(self::REPLACER, $_name, $this->collection_template);
         $this->service_template         = str_replace(self::REPLACER, $_name, $this->service_template);
+        $this->factory_template         = str_replace(self::REPLACER, $_name, $this->factory_template);
+        $this->seeder_template          = str_replace(self::REPLACER, $_name, $this->seeder_template);
         
+        // Set model table name
+        $_tableName = $this->ask("Name of table name: ");
+        $this->model_template = str_replace(self::TABLENAMEREPLACER, $_tableName, $this->model_template);
+
         mkdir($_base.$_name);
 
         $_base = $_base.$_name."/";
@@ -192,14 +226,20 @@ class @@@@@@@@@@@@Service extends Service
         mkdir($_base."Resources");
         mkdir($_base."Services");
 
-        file_put_contents($_base."DataMappers/{$_name}DataMapper.php"   , $this->datamapper_template);
-        file_put_contents($_base."Controllers/{$_name}Controller.php"   , $this->controller_template);
-        file_put_contents($_base."Entities/{$_name}Entity.php"          , $this->entities_template);
-        file_put_contents($_base."Models/{$_name}.php"             , $this->model_template);
-        file_put_contents($_base."Repositories/{$_name}Repository.php"  , $this->repositories_template);
-        file_put_contents($_base."Resources/{$_name}Resource.php"       , $this->resource_template);
-        file_put_contents($_base."Resources/{$_name}Collection.php"     , $this->collection_template);
-        file_put_contents($_base."Services/{$_name}Service.php"         , $this->service_template);
+        file_put_contents($_base."DataMappers/{$_name}DataMapper.php"           , $this->datamapper_template);
+        file_put_contents($_base."Controllers/{$_name}Controller.php"           , $this->controller_template);
+        file_put_contents($_base."Entities/{$_name}Entity.php"                  , $this->entities_template);
+        file_put_contents($_base."Models/{$_name}.php"                          , $this->model_template);
+        file_put_contents($_base."Repositories/{$_name}Repository.php"          , $this->repositories_template);
+        file_put_contents($_base."Resources/{$_name}Resource.php"               , $this->resource_template);
+        file_put_contents($_base."Resources/{$_name}Collection.php"             , $this->collection_template);
+        file_put_contents($_base."Services/{$_name}Service.php"                 , $this->service_template);
+        
+        file_put_contents(base_path()."/database/factories/{$_name}Factory.php" , $this->factory_template);
+        file_put_contents(base_path()."/database/seeds/{$_name}Seeder.php" , $this->seeder_template);
+
+        // MAke migration
+        $this->call("make:migration", ['name' => "create_".$_tableName."_table"]);
 
         $this->info('Resource Created');
 
