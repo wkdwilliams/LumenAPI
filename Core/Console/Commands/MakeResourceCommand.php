@@ -35,12 +35,13 @@ class @@@@@@@@@@@@DataMapper extends DataMapper
         return [];
     }
     
-    public function fromEntity(Entity \$data): array
+    protected function fromEntity(Entity \$data): array
     {
         return [];
     }
     
 }
+    
 ";
 
     private $controller_template = "<?php
@@ -66,6 +67,8 @@ class @@@@@@@@@@@@Controller extends Controller
         'service'    => @@@@@@@@@@@@Service::class,
         'model'      => @@@@@@@@@@@@::class,
     ];
+
+    protected int \$paginate = 0;
     
 }
 ";
