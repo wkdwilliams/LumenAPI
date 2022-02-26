@@ -78,7 +78,6 @@ class @@@@@@@@@@@@Controller extends Controller
 namespace App\@@@@@@@@@@@@\Entities;
     
 use Core\Entity;
-use Core\EntityCollection;
     
 class @@@@@@@@@@@@Entity extends Entity
 {
