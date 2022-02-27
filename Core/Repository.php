@@ -2,9 +2,12 @@
 
 namespace Core;
 
+use Carbon\Carbon;
 use Core\DataMapper;
 use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
+use ReflectionClass;
 
 abstract class Repository
 {
@@ -29,6 +32,11 @@ abstract class Repository
      */
     private int $paginate;
 
+    /**
+     * @var string
+     */
+    private string $cacheKey;
+
     public function __construct(DataMapper $dataMapper, Model $model, int $paginate=0)
     {
         $this->query        = $model;
@@ -51,7 +59,8 @@ abstract class Repository
      */
     protected function setQuery($query): Repository
     {
-        $this->query = $query;
+        $this->cacheKey = $query->toSql().implode('', $query->getBindings());
+        $this->query    = $query;
 
         return $this;
     }
@@ -138,10 +147,18 @@ abstract class Repository
         return $this->setQuery($query);
     }
 
- 
+    /**
+     * @return Entity|null
+     */
     public function entity(): ?Entity
     {
-        $data = $this->getQuery()->first()->toArray();
+        $data = Cache::remember(
+            (new ReflectionClass($this))->getShortName().$this->cacheKey, // We create a unique key for the data we're accessing
+            Carbon::now()->addHour(), // We cache for 1 hour              // By class name + the query we're using
+            function(){
+                return $this->getQuery()->first()->toArray();
+            }
+        );
 
         return $this->datamapper->repoToEntity($data);
     }
