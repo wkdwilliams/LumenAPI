@@ -160,7 +160,6 @@ abstract class Repository
         $data = Cache::remember($this->cacheKey, Carbon::now()->addHour(), function(){
             return $this->getQuery()->first()->toArray();
         });
-        // $data = $this->getQuery()->first()->toArray();
 
         return $this->datamapper->repoToEntity($data);
     }
