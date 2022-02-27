@@ -34,5 +34,12 @@ $router->group(['prefix' => 'api'], function() use ($router){
     $router->post('/user'       , '\App\User\Controllers\UserController@createResource');
     $router->put('/user'        , '\App\User\Controllers\UserController@updateResource');
     $router->delete('/user'     , '\App\User\Controllers\UserController@deleteResource');
+
+    // Categories
+    $router->get('/category'        , '\App\category\Controllers\categoryController@getResources');
+    $router->get('/category/{id}'   , '\App\category\Controllers\categoryController@getResource');
+    $router->post('/category'       , '\App\category\Controllers\categoryController@createResource');
+    $router->put('/category'        , '\App\category\Controllers\categoryController@updateResource');
+    $router->delete('/category'     , '\App\category\Controllers\categoryController@deleteResource');
     
 });
