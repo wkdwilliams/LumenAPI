@@ -94,6 +94,7 @@ $app->routeMiddleware([
 $app->register(Core\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Illuminate\Database\Eloquent\LegacyFactoryServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

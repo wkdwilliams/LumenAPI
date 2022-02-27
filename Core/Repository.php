@@ -59,8 +59,13 @@ abstract class Repository
      */
     protected function setQuery($query): Repository
     {
-        $this->cacheKey = $query->toSql().implode('', $query->getBindings());
-        $this->query    = $query;
+        $this->cacheKey = (new ReflectionClass($this))->getShortName() . ":" . str_replace(
+            " ", "", $query->toSql().implode(
+                "", $query->getBindings()
+            )
+        );
+
+        $this->query = $query;
 
         return $this;
     }
@@ -152,13 +157,10 @@ abstract class Repository
      */
     public function entity(): ?Entity
     {
-        $data = Cache::remember(
-            (new ReflectionClass($this))->getShortName().$this->cacheKey, // We create a unique key for the data we're accessing
-            Carbon::now()->addHour(), // We cache for 1 hour              // By class name + the query we're using
-            function(){
-                return $this->getQuery()->first()->toArray();
-            }
-        );
+        $data = Cache::remember($this->cacheKey, Carbon::now()->addHour(), function(){
+            return $this->getQuery()->first()->toArray();
+        });
+        // $data = $this->getQuery()->first()->toArray();
 
         return $this->datamapper->repoToEntity($data);
     }

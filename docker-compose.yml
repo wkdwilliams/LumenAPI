@@ -44,6 +44,7 @@ services:
       - default
  
   phpmyadmin:
+    container_name: phpmyadmin
     image: phpmyadmin
     restart: always
     environment:
@@ -52,7 +53,21 @@ services:
       PMA_PASSWORD: root
     ports:
       - "8088:80"
+
+  redis:
+    container_name: redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass irsehfgriuh98654654frjngvhj
+    volumes: 
+      - cache:/data
+    networks:
+      - default
     
 volumes:
-    dbdata:
-        driver: local
+  dbdata:
+    driver: local
+  cache:
+    driver: local

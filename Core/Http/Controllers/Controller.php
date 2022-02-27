@@ -2,10 +2,15 @@
 
 namespace Core\Http\Controllers;
 
+use App\User\Models\User;
+use App\User\Repositories\UserRepository;
+use Carbon\Carbon;
 use Core\Service;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
