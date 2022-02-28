@@ -16,7 +16,7 @@ abstract class Repository
     /**
      * @var DataMapper
      */
-    protected DataMapper $datamapper;
+    protected $datamapper;
 
     /**
      * @var Builder
@@ -26,7 +26,7 @@ abstract class Repository
     /**
      * @var Model
      */
-    protected Model $model;
+    protected $model;
 
     /**
      * @var int
@@ -43,14 +43,13 @@ abstract class Repository
      */
     private string $cachePrefix;
 
-    public function __construct(DataMapper $dataMapper, Model $model, int $paginate=0)
+    public function __construct(int $paginate=0)
     {
-        $this->query        = $model;
-        $this->model        = $model;
-        $this->datamapper   = $dataMapper;
+        $this->query        = new $this->model();
+        $this->model        = new $this->model();
+        $this->datamapper   = new $this->datamapper();
+        $this->cachePrefix  = (new ReflectionClass($this))->getShortName();
         $this->paginate     = $paginate;
-
-        $this->cachePrefix = (new ReflectionClass($this))->getShortName();
     }
 
     /**

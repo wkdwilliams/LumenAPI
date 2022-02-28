@@ -104,12 +104,15 @@ class @@@@@@@@@@@@ extends Model
     private $repositories_template = "<?php
 
 namespace App\@@@@@@@@@@@@\Repositories;
-    
+
+use App\@@@@@@@@@@@@\DataMappers\@@@@@@@@@@@@DataMapper;
+use App\@@@@@@@@@@@@\Models\@@@@@@@@@@@@;
 use Core\Repository;
     
 class @@@@@@@@@@@@Repository extends Repository
 {
-    
+    protected \$datamapper   = @@@@@@@@@@@@DataMapper::class;
+    protected \$model        = @@@@@@@@@@@@::class;
 }";
 
     private $resource_template = "<?php

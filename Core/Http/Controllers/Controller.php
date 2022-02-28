@@ -50,8 +50,6 @@ class Controller extends BaseController
     {
         $this->service = new $this->classes['service'](
             new $this->classes['repository'](
-                new $this->classes['datamapper'](),
-                new $this->classes['model'](),
                 $this->paginate
             )
         );
