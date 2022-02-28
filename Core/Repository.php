@@ -176,9 +176,12 @@ abstract class Repository
      */
     public function entity(): ?Entity
     {
-        $data = Cache::remember($this->cacheKey, Carbon::now()->addHour(), function(){
-            return $this->getQuery()->first()->toArray();
-        });
+        if(!env('APP_DEBUG')) // Only use the cache in production
+            $data = Cache::remember($this->cacheKey, Carbon::now()->addHour(), function(){
+                return $this->getQuery()->first()->toArray();
+            });
+        else
+            $data = $this->getQuery()->first()->toArray();
 
         return $this->datamapper->repoToEntity($data);
     }
@@ -189,14 +192,20 @@ abstract class Repository
     public function entityCollection(): EntityCollection
     {
         if($this->paginate > 0){
-            $data = Cache::remember($this->cacheKey.":".request()->getRequestUri(), Carbon::now()->addHour(), function(){
-                return $this->getQuery()->paginate($this->paginate)->toArray()['data'];
-            });
+            if(!env('APP_DEBUG')) // Only use the cache in production
+                $data = Cache::remember($this->cacheKey.":".request()->getRequestUri(), Carbon::now()->addHour(), function(){
+                    return $this->getQuery()->paginate($this->paginate)->toArray()['data'];
+                });
+            else
+                $data = $this->getQuery()->paginate($this->paginate)->toArray()['data'];
         }
         else{
-            $data = Cache::remember($this->cacheKey.":all", Carbon::now()->addHour(), function(){
-                return $this->getQuery()->get()->toArray();
-            });
+            if(!env('APP_DEBUG')) // Only use the cache in production
+                $data = Cache::remember($this->cacheKey.":all", Carbon::now()->addHour(), function(){
+                    return $this->getQuery()->get()->toArray();
+                });
+            else
+                $data = $this->getQuery()->get()->toArray();
         }
 
         return $this->datamapper->repoToEntityCollection($data);
