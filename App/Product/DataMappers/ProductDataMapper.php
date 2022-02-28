@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Product\DataMappers;
-    
+
+use App\Category\DataMappers\CategoryDataMapper;
 use App\Product\Entities\ProductEntity;
 use Core\DataMapper;
 use Core\Entity;
@@ -12,10 +13,13 @@ class ProductDataMapper extends DataMapper
     
     protected function fromRepository(array $data): array
     {
+        $category = (new CategoryDataMapper())
+                    ->repoToEntity($data['category'][0]);
+
         return [
             'id'         => $data['id'],
-            'userid'     => $data['userid'],
             'name'       => $data['name'],
+            'category'   => $category,
             'created_at' => $data['created_at'],
             'updated_at' => $data['updated_at'],
         ];

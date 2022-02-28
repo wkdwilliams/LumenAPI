@@ -3,7 +3,7 @@
 namespace App\Product\Entities;
     
 use Core\Entity;
-    
+
 class ProductEntity extends Entity
 {
 
@@ -13,9 +13,9 @@ class ProductEntity extends Entity
     private string $name;
 
     /**
-     * @var int
+     * @var Entity
      */
-    private int $userId;
+    private Entity $category;
 
     /**
      * @return string
@@ -35,12 +35,9 @@ class ProductEntity extends Entity
         $this->name = $name;
     }
 
-        /**
-     * @return string
-     */
-    public function getUserId(): string
+    public function getCategory(): Entity
     {
-        return $this->userId;
+        return $this->category;
     }
 
     /**
@@ -48,9 +45,8 @@ class ProductEntity extends Entity
      * 
      * @return void
      */
-    public function setUserId(string $userId): void
+    public function setCategory(Entity $category): void
     {
-        $this->userId = $userId;
+        $this->category = $category;
     }
-        
 }

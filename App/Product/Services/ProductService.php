@@ -7,11 +7,8 @@ use Core\Service;
     
 class ProductService extends Service
 {
-    /**
-    * @return EntityCollection
-    */
-    public function getProductsByUserId(string $id): EntityCollection
+    public function getResources(): EntityCollection
     {
-        return $this->repository->findByForeignId('userid', $id)->entityCollection();
+        return $this->repository->findAll()->entityCollection();
     }
 }
