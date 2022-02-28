@@ -221,7 +221,7 @@ abstract class Repository
 
         foreach ($data as $key => $value) {
             // Let's ignore these values since our database should handle this
-            if($key === 'id') continue;
+            if($key === 'id')         continue;
             if($key === 'created_at') continue;
             if($key === 'updated_at') continue;
 
@@ -255,7 +255,7 @@ abstract class Repository
         foreach ($data as $key => $value) {
             // Make sure we're not updating things
             // The user shouldn't be allowed to update.
-            if($key === 'id')          continue;
+            if($key === 'id')         continue;
             if($key === 'created_at') continue;
             if($key === 'updated_at') continue;
             if($value == '')          continue;
