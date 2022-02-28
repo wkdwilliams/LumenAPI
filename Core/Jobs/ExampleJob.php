@@ -12,6 +12,6 @@ class ExampleJob extends Job
     public function handle(): void
     {
         sleep(10);
-        factory(User::class, 5)->create();
+        file_put_contents(sys_get_temp_dir()."/out.txt", "Hello");
     }
 }
