@@ -9,7 +9,6 @@ use App\User\Resources\UserCollection;
 use App\User\Resources\UserResource;
 use App\User\Services\UserService;
 use Core\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -24,6 +23,10 @@ class UserController extends Controller
     ];
 
     protected array $guardedUpdateFields = [
+        'api_token'
+    ];
+
+    protected array $guardedCreateFields = [
         'api_token'
     ];
 

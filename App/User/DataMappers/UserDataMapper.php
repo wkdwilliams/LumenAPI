@@ -42,7 +42,9 @@ class UserDataMapper extends DataMapper
             'id'            => $entity->getId(),
             'name'          => $entity->getName(),
             'email'         => $entity->getEmail(),
-            'api_token'     => $entity->getApiToken()
+            'api_token'     => $entity->getApiToken(),
+            'created_at'    => $entity->getCreatedAt(),
+            'updated_at'    => $entity->getUpdatedAt()
         ];
     }
 

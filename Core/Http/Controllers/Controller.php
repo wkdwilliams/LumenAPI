@@ -32,6 +32,12 @@ class Controller extends BaseController
     protected array $guardedUpdateFields = [];
 
     /**
+     * The fields that we don't want users to create
+     * @var array
+     */
+    protected array $guardedCreateFields = [];
+
+    /**
      * @var int
      */
     protected int $paginate = 0;
@@ -49,12 +55,6 @@ class Controller extends BaseController
                 $this->paginate
             )
         );
-
-        // We don't want a user updating these fields
-        foreach (['updated_at', 'created_at'] as $v) {
-            if(!in_array($v, $this->guardedUpdateFields))
-                $this->guardedUpdateFields[] = $v;
-        }
 
         $this->request = $request;
     }
@@ -100,6 +100,10 @@ class Controller extends BaseController
      */
     public function createResource(): JsonResponse
     {
+        foreach ($this->guardedCreateFields as $field) {
+            $this->request->request->remove($field);
+        }
+
         $data = $this->request->all();
 
         $repos = $this->service->createResource($data);

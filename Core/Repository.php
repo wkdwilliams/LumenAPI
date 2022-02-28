@@ -8,7 +8,6 @@ use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
-use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 
 abstract class Repository
@@ -221,13 +220,18 @@ abstract class Repository
         $m = new $this->model();
 
         foreach ($data as $key => $value) {
-            if($key === 'id') continue; // We don't need the id field
+            // Let's ignore these values since our database should handle this
+            if($key === 'id') continue;
+            if($key === 'created_at') continue;
+            if($key === 'updated_at') continue;
 
             $m->{$key} = $value;
         }
         if(!$m->save()) return false; // Should throw exception
 
         $this->clearCache(); // Clear the cache so we see our newly created record
+
+        dd($m->toArray());
         
         return $this->datamapper->repoToEntity($m->toArray()); //Return the created entity
     }
@@ -251,8 +255,10 @@ abstract class Repository
         foreach ($data as $key => $value) {
             // Make sure we're not updating things
             // The user shouldn't be allowed to update.
-            if($key == 'id') continue;
-            if($value == '') continue;
+            if($key === 'id')          continue;
+            if($key === 'created_at') continue;
+            if($key === 'updated_at') continue;
+            if($value == '')          continue;
 
             $m->{$key} = $value;
         }

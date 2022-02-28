@@ -42,7 +42,7 @@ abstract class Entity
     /**
      * @return string
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         return $this->createdAt;
     }
@@ -58,7 +58,7 @@ abstract class Entity
     /**
      * @return string
      */
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): ?string
     {
         return $this->updatedAt;
     }
