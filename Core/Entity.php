@@ -26,7 +26,7 @@ abstract class Entity
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }

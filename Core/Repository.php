@@ -7,6 +7,8 @@ use Core\DataMapper;
 use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 
 abstract class Repository
@@ -36,6 +38,11 @@ abstract class Repository
      * @var string
      */
     private string $cacheKey;
+    
+    /**
+     * @var string
+     */
+    private string $cachePrefix;
 
     public function __construct(DataMapper $dataMapper, Model $model, int $paginate=0)
     {
@@ -43,6 +50,20 @@ abstract class Repository
         $this->model        = $model;
         $this->datamapper   = $dataMapper;
         $this->paginate     = $paginate;
+
+        $this->cachePrefix = (new ReflectionClass($this))->getShortName();
+    }
+
+    /**
+     * @return void
+     */
+    public function clearCache(): void
+    {
+        Redis::select(1);
+        $keys = Redis::command("KEYS", ['*'.$this->cachePrefix.':*']);
+        foreach ($keys as $value) {
+            Redis::command("DEL", [$value]);
+        }
     }
 
     /**
@@ -59,7 +80,7 @@ abstract class Repository
      */
     protected function setQuery($query): Repository
     {
-        $this->cacheKey = (new ReflectionClass($this))->getShortName() . ":" . str_replace(
+        $this->cacheKey = $this->cachePrefix . ":" . str_replace(
             " ", "", $query->toSql().implode(
                 "", $query->getBindings()
             )
@@ -169,8 +190,16 @@ abstract class Repository
      */
     public function entityCollection(): EntityCollection
     {
-        if($this->paginate > 0) $data = $this->getQuery()->paginate($this->paginate)->toArray()['data'];
-        else $data = $this->getQuery()->get()->toArray();
+        if($this->paginate > 0){
+            $data = Cache::remember($this->cacheKey.":".request()->getRequestUri(), Carbon::now()->addHour(), function(){
+                return $this->getQuery()->paginate($this->paginate)->toArray()['data'];
+            });
+        }
+        else{
+            $data = Cache::remember($this->cacheKey.":all", Carbon::now()->addHour(), function(){
+                return $this->getQuery()->get()->toArray();
+            });
+        }
 
         return $this->datamapper->repoToEntityCollection($data);
     }
@@ -192,9 +221,13 @@ abstract class Repository
         $m = new $this->model();
 
         foreach ($data as $key => $value) {
+            if($key === 'id') continue; // We don't need the id field
+
             $m->{$key} = $value;
         }
         if(!$m->save()) return false; // Should throw exception
+
+        $this->clearCache(); // Clear the cache so we see our newly created record
         
         return $this->datamapper->repoToEntity($m->toArray()); //Return the created entity
     }
@@ -218,13 +251,16 @@ abstract class Repository
         foreach ($data as $key => $value) {
             // Make sure we're not updating things
             // The user shouldn't be allowed to update.
-            if($key == 'id')         continue;
-            if($value == '')         continue;
+            if($key == 'id') continue;
+            if($value == '') continue;
+
             $m->{$key} = $value;
         }
 
         if(!$m->save()) return false; // Should throw exception
         $m->touch();
+
+        $this->clearCache(); // Clear the cache so we see our newly updated record
         
         return $this->datamapper->repoToEntity($m->toArray()); // Return the updated entity
     }
@@ -240,6 +276,8 @@ abstract class Repository
         
         if(!$this->model->where(['id' => $data['id']])->delete())
             return false; // Should throw exception
+
+        $this->clearCache(); // Clear the cache so we no longer see our deleted record
 
         return $entity; // Return the entity we deleted
     }
