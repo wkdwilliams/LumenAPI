@@ -8,8 +8,8 @@ class UserCreated extends Event
 {
     public UserEntity $entity;
 
-    function __construct()
+    function __construct(UserEntity $entity)
     {
-        
+        $this->entity = $entity;
     }
 }

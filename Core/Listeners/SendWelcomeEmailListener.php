@@ -11,6 +11,6 @@ class SendWelcomeEmailListener implements ShouldQueue
 
     public function handle($event)
     {
-        file_put_contents("/tmp/out.txt", "hello");
+        echo $event->entity->getEmail(); // Returns email of newly created user
     }
 }
