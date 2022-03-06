@@ -57,7 +57,7 @@ abstract class Repository
      */
     public function clearCache(): void
     {
-        Redis::select(1);
+        Redis::select(0);
         $keys = Redis::command("KEYS", ['*'.$this->cachePrefix.':*']);
         foreach ($keys as $value) {
             Redis::command("DEL", [$value]);
@@ -238,8 +238,6 @@ abstract class Repository
         if(!$m->save()) return false; // Should throw exception
 
         $this->clearCache(); // Clear the cache so we see our newly created record
-
-        dd($m->toArray());
         
         return $this->datamapper->repoToEntity($m->toArray()); //Return the created entity
     }
