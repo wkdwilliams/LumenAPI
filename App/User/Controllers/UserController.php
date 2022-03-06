@@ -8,7 +8,7 @@ use App\User\Repositories\UserRepository;
 use App\User\Resources\UserCollection;
 use App\User\Resources\UserResource;
 use App\User\Services\UserService;
-use Core\Http\Controllers\Controller;
+use Core\Controllers\Controller;
 
 class UserController extends Controller
 {

@@ -8,7 +8,7 @@ use App\Category\Repositories\CategoryRepository;
 use App\Category\Resources\CategoryCollection;
 use App\Category\Resources\CategoryResource;
 use App\Category\Services\CategoryService;
-use Core\Http\Controllers\Controller;
+use Core\Controllers\Controller;
     
 class CategoryController extends Controller
 {

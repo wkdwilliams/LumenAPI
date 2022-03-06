@@ -8,7 +8,7 @@ use App\Product\Repositories\ProductRepository;
 use App\Product\Resources\ProductCollection;
 use App\Product\Resources\ProductResource;
 use App\Product\Services\ProductService;
-use Core\Http\Controllers\Controller;
+use Core\Controllers\Controller;
 
 class ProductController extends Controller
 {
