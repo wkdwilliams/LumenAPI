@@ -76,10 +76,9 @@ abstract class Repository
      */
     protected function setQuery($query): Repository
     {
+        // Set the cache key for this instance
         $this->cacheKey = $this->cachePrefix . ":" . str_replace(
-            " ", "", $query->toSql().implode(
-                "", $query->getBindings()
-            )
+            " ", "", $query->toSql().implode("", $query->getBindings())
         );
 
         $this->query = $query;
