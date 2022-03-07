@@ -57,11 +57,9 @@ abstract class Repository
      */
     public function clearCache(): void
     {
-        Redis::select(0);
-        $keys = Redis::command("KEYS", ['*'.$this->cachePrefix.':*']);
-        foreach ($keys as $value) {
+        collect(Redis::command("KEYS", ['*'.$this->cachePrefix.':*']))->map(function($value){
             Redis::command("DEL", [$value]);
-        }
+        });
     }
 
     /**
