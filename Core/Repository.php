@@ -4,6 +4,7 @@ namespace Core;
 
 use Carbon\Carbon;
 use Core\DataMapper;
+use Core\Exceptions\ResourceNotFoundException;
 use Core\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
@@ -175,10 +176,17 @@ abstract class Repository
     {
         if(!env('APP_DEBUG')) // Only use the cache in production
             $data = Cache::remember($this->cacheKey, Carbon::now()->addHour(), function(){
-                return $this->getQuery()->first()->toArray();
+                $_data = $this->getQuery()->first();
+                if($_data === null) throw new ResourceNotFoundException();
+
+                return $_data->toArray();
             });
-        else
-            $data = $this->getQuery()->first()->toArray();
+        else{
+            $data = $this->getQuery()->first();
+            if($data === null) throw new ResourceNotFoundException();
+
+            $data = $data->toArray();
+        }
 
         return $this->datamapper->repoToEntity($data);
     }
@@ -201,8 +209,9 @@ abstract class Repository
                 $data = Cache::remember($this->cacheKey.":all", Carbon::now()->addHour(), function(){
                     return $this->getQuery()->get()->toArray();
                 });
-            else
+            else{
                 $data = $this->getQuery()->get()->toArray();
+            }
         }
 
         return $this->datamapper->repoToEntityCollection($data);

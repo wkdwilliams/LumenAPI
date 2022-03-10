@@ -49,22 +49,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        $rendered = parent::render($request, $e);
-        if(env('APP_DEBUG'))
-            return $rendered;
-
-        if($e->getMessage() == "Call to a member function toArray() on null")
-        {
-            return response()->json([
-                'status'  => 404,
-                'message' => "Resource not found.",
-            ], 404);
-        }
-        
-        return response()->json([
-            'status'  => 500,
-            'message' => "Server error.",
-        ], 500);
-        
+        return parent::render($request, $e);
     }
 }

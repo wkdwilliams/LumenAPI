@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use Core\DataMapper;
 use Core\Entity;
 use Core\Repository;
 use Core\EntityCollection;
