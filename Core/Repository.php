@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Core\DataMapper;
 use Core\Exceptions\ResourceNotFoundException;
 use Core\Model;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
@@ -220,9 +221,9 @@ abstract class Repository
     /**
      * @param array|Entity $data
      * 
-     * @return mixed
+     * @return Entity
      */
-    public function create($data): mixed
+    public function create($data): Entity
     {
         if ($data instanceof Entity) {
             $data = $this->datamapper->entityToArray($data);    // Convert entity to array to prepare for the model
@@ -241,7 +242,8 @@ abstract class Repository
 
             $m->{$key} = $value;
         }
-        if(!$m->save()) return false; // Should throw exception
+
+        $m->save();
 
         $this->clearCache(); // Clear the cache so we see our newly created record
         
@@ -251,19 +253,17 @@ abstract class Repository
     /**
      * @param array|Entity $data
      * 
-     * @return mixed
+     * @return Entity
      */
-    public function update($data): mixed
+    public function update($data): Entity
     {
         if($data instanceof Entity)
             $data = $this->datamapper->entityToArray($data);    // Convert our Entity to array ready for the model
 
         $m = $this->model::find($data['id']);
         if($m === null)
-        {
-            // Throw resource not found error here!
-        }
-
+            throw new ResourceNotFoundException();
+        
         foreach ($data as $key => $value) {
             // Make sure we're not updating things
             // The user shouldn't be allowed to update.
@@ -275,7 +275,7 @@ abstract class Repository
             $m->{$key} = $value;
         }
 
-        if(!$m->save()) return false; // Should throw exception
+        $m->save();
         $m->touch();
 
         $this->clearCache(); // Clear the cache so we see our newly updated record
@@ -286,14 +286,13 @@ abstract class Repository
     /**
      * @param array $data
      * 
-     * @return mixed
+     * @return Entity
      */
-    public function delete(array $data): mixed
+    public function delete(array $data): Entity
     {
         $entity = $this->findById($data['id'])->entity();
         
-        if(!$this->model->where(['id' => $data['id']])->delete())
-            return false; // Should throw exception
+        $this->model->where(['id' => $data['id']])->delete();
 
         $this->clearCache(); // Clear the cache so we no longer see our deleted record
 
