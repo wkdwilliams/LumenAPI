@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Validator;
+namespace Core;
 
 use Illuminate\Validation\Validator as ValidationValidator;
 
