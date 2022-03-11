@@ -36,11 +36,6 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        // dd($request->header('Authorization'));
-        // if ($this->auth->guard($guard)->guest()) {
-        //     return response('Unauthorized.', 401);
-        // }
-
         $apiToken = $request->header('Authorization');
 
         if($apiToken === null)
@@ -48,6 +43,7 @@ class Authenticate
         
         $user = (new UserRepository())
                 ->where(['api_token' => $apiToken]);
+
         if($user->count() == 0)
             return response('Unauthorized.', 401);
 
