@@ -17,6 +17,8 @@ $router->get('/', function(){
 
 $router->group(['prefix' => 'api'], function() use ($router){
 
+    $router->post('auth/login', '\Core\Controllers\AuthController@login');
+
     // Test authentication
     $router->group(['middleware' => ['auth']], function() use ($router){
 

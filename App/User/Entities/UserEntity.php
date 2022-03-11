@@ -20,6 +20,11 @@ class UserEntity extends Entity
     /**
      * @var string
      */
+    private string $password;
+
+    /**
+     * @var string
+     */
     private string $apiToken;
 
     /**
@@ -82,6 +87,14 @@ class UserEntity extends Entity
         $this->messages = $messages;
     }
 
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
 
 }

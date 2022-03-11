@@ -2,6 +2,7 @@
 
 namespace Core\Middleware;
 
+use App\User\Repositories\UserRepository;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
@@ -35,9 +36,20 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
+        // dd($request->header('Authorization'));
+        // if ($this->auth->guard($guard)->guest()) {
+        //     return response('Unauthorized.', 401);
+        // }
+
+        $apiToken = $request->header('Authorization');
+
+        if($apiToken === null)
             return response('Unauthorized.', 401);
-        }
+        
+        $user = (new UserRepository())
+                ->where(['api_token' => $apiToken]);
+        if($user->count() == 0)
+            return response('Unauthorized.', 401);
 
         return $next($request);
     }

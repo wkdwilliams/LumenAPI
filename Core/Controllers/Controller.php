@@ -62,7 +62,7 @@ class Controller extends BaseController
         return response()->json([
             'status' => 200,
             'data'   => $resource
-        ]);
+        ], 200);
     }
 
     /**

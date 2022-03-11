@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             'name'       => $this->getName(),
             'email'      => $this->getEmail(),
             'messages'   => new MessageCollection($this->getMessages()),
-            'api_token'  => $this->getApiToken(),
             'created_at' => $this->getCreatedAt(),
             'updated_at' => $this->getUpdatedAt()
         ];
