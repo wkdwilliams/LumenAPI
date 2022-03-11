@@ -39,9 +39,9 @@ abstract class Service
     /**
      * @param array $data
      * 
-     * @return mixed
+     * @return Entity
      */
-    public function createResource(array $data): mixed
+    public function createResource(array $data): Entity
     {
         return $this->repository->create($data);
     }
@@ -49,9 +49,9 @@ abstract class Service
     /**
      * @param array $data
      * 
-     * @return mixed
+     * @return Entity
      */
-    public function updateResource(array $data): mixed
+    public function updateResource(array $data): Entity
     {
         return $this->repository->update($data);
     }
@@ -59,9 +59,9 @@ abstract class Service
     /**
      * @param array $data
      * 
-     * @return mixed
+     * @return Entity
      */
-    public function deleteResource(array $data): mixed
+    public function deleteResource(array $data): Entity
     {
         return $this->repository->delete($data);
     }

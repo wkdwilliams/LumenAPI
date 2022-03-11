@@ -23,7 +23,8 @@ class UserController extends Controller
     ];
 
     protected array $guardedUpdateFields = [
-        'api_token'
+        'api_token',
+        'password'
     ];
 
     protected array $guardedCreateFields = [
