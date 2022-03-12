@@ -17,7 +17,9 @@ $router->get('/', function(){
 
 $router->group(['prefix' => 'api'], function() use ($router){
 
-    $router->post('auth/login', '\Core\Controllers\AuthController@login');
+    $router->post('auth/login'  , '\Core\Controllers\AuthController@login');
+    $router->post('auth/logout' , '\Core\Controllers\AuthController@logout');
+    $router->post('auth/me'     , '\Core\Controllers\AuthController@me');
 
     // Test authentication
     $router->group(['middleware' => ['auth']], function() use ($router){

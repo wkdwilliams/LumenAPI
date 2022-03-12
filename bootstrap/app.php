@@ -95,6 +95,7 @@ $app->register(Core\Providers\AuthServiceProvider::class);
 $app->register(Core\Providers\EventServiceProvider::class);
 $app->register(Illuminate\Database\Eloquent\LegacyFactoryServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

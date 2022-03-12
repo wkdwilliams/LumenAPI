@@ -2,10 +2,9 @@
 
 namespace Core\Controllers;
 
-use App\User\Repositories\UserRepository;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends BaseController
 {
@@ -18,19 +17,39 @@ class AuthController extends BaseController
 
     public function login()
     {
-        $user = (new UserRepository())
-                ->where(['email' => $this->request->email])
-                ->entity();
-        
-        if(Hash::check($this->request->password, $user->getPassword()))
-            return response()->json([
-                'status'    => 200,
-                'token'     => $user->getApiToken()
-            ], 200);
-        
+        $this->validate($this->request, [
+            'email'     => 'required|string',
+            'password'  => 'required|string',
+        ]);
+
+        $credentials = $this->request->only(['email', 'password']);
+
+        if (!$token = Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    private function respondWithToken($token)
+    {
         return response()->json([
-            'status'    => 401,
-            'message'   => "Incorrect email or password"
-        ], 401);
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            // 'user' => auth()->user(),
+            'expires_in' => auth()->factory()->getTTL() * 60 * 24
+        ]);
     }
 }
