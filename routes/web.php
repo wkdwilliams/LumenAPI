@@ -30,13 +30,6 @@ $router->group(['prefix' => 'api'], function() use ($router){
         
     });
 
-    // Users
-    $router->get('/user'        , '\App\User\Controllers\UserController@getResources');
-    $router->get('/user/{id}'   , '\App\User\Controllers\UserController@getResource');
-    $router->post('/user'       , '\App\User\Controllers\UserController@createResource');
-    $router->put('/user'        , '\App\User\Controllers\UserController@updateResource');
-    $router->delete('/user'     , '\App\User\Controllers\UserController@deleteResource');
-
     // Categories
     $router->get('/category'        , '\App\category\Controllers\categoryController@getResources');
     $router->get('/category/{id}'   , '\App\category\Controllers\categoryController@getResource');
