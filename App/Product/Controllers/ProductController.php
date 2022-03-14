@@ -9,6 +9,7 @@ use App\Product\Resources\ProductCollection;
 use App\Product\Resources\ProductResource;
 use App\Product\Services\ProductService;
 use Core\Controllers\Controller;
+use Core\Rules\Ownership;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,13 @@ class ProductController extends Controller
         'resource'   => ProductResource::class,
         'collection' => ProductCollection::class,
         'service'    => ProductService::class,
-        'model'      => Product::class,
+        'model'      => Product::class
+    ];
+
+    protected array $createRules = [
+        'user_id'       => 'required',
+        'category_id'   => 'required',
+        'name'          => 'required',
     ];
     
 }

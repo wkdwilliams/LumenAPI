@@ -2,6 +2,7 @@
 
 namespace Core\Controllers;
 
+use Core\Rules\Ownership;
 use Core\Service;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,6 +38,15 @@ class Controller extends BaseController
      */
     protected array $guardedCreateFields = [];
 
+    /**
+     * @var array
+     */
+    protected array $updateRules = [];
+
+    /**
+     * @var array
+     */
+    protected array $createRules = [];
     /**
      * @var int
      */
@@ -102,6 +112,8 @@ class Controller extends BaseController
             $this->request->request->remove($field);
         }
 
+        $this->validate($this->request, $this->createRules);
+
         $data = $this->request->all();
 
         $repos = $this->service->createResource($data);
@@ -120,6 +132,8 @@ class Controller extends BaseController
         foreach ($this->guardedUpdateFields as $field) {
             $this->request->request->remove($field);
         }
+
+        $this->validate($this->request, $this->updateRules);
 
         $data = $this->request->all();
 

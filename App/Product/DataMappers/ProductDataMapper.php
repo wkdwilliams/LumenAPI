@@ -19,6 +19,7 @@ class ProductDataMapper extends DataMapper
         return [
             'id'         => $data['id'],
             'name'       => $data['name'],
+            'user_id'    => $data['user_id'],
             'category'   => $category,
             'created_at' => $data['created_at'],
             'updated_at' => $data['updated_at'],
@@ -27,12 +28,20 @@ class ProductDataMapper extends DataMapper
     
     protected function toRepository(array $data): array
     {
-        return [];
+        return [
+            'name'          => $data['name'],
+            'user_id'       => $data['user_id'],
+            'category_id'   => $data['category_id'],
+        ];
     }
     
     protected function fromEntity(Entity $data): array
     {
-        return [];
+        return [
+            'name'          => $data->getName(),
+            'user_id'       => $data->getUserId(),
+            'category_id'   => $data->getCategoryId()
+        ];
     }
     
 }

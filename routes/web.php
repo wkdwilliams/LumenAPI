@@ -29,14 +29,13 @@ $router->group(['prefix' => 'api'], function() use ($router){
         $router->post('/product'       , '\App\Product\Controllers\ProductController@createResource');
         $router->put('/product'        , '\App\Product\Controllers\ProductController@updateResource');
         $router->delete('/product'     , '\App\Product\Controllers\ProductController@deleteResource');
-        
+
+        // Categories
+        $router->get('/category'        , '\App\category\Controllers\categoryController@getResources');
+        $router->get('/category/{id}'   , '\App\category\Controllers\categoryController@getResource');
+        $router->post('/category'       , '\App\category\Controllers\categoryController@createResource');
+        $router->put('/category'        , '\App\category\Controllers\categoryController@updateResource');
+        $router->delete('/category'     , '\App\category\Controllers\categoryController@deleteResource');
     });
 
-    // Categories
-    $router->get('/category'        , '\App\category\Controllers\categoryController@getResources');
-    $router->get('/category/{id}'   , '\App\category\Controllers\categoryController@getResource');
-    $router->post('/category'       , '\App\category\Controllers\categoryController@createResource');
-    $router->put('/category'        , '\App\category\Controllers\categoryController@updateResource');
-    $router->delete('/category'     , '\App\category\Controllers\categoryController@deleteResource');
-    
 });
