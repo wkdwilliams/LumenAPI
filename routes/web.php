@@ -19,23 +19,24 @@ $router->group(['prefix' => 'api'], function() use ($router){
 
     $router->post('auth/login'  , '\Core\Controllers\AuthController@login');
     $router->post('auth/logout' , '\Core\Controllers\AuthController@logout');
-    $router->post('auth/me'     , '\Core\Controllers\AuthController@me');
 
     // Test authentication
     $router->group(['middleware' => ['auth']], function() use ($router){
 
+        // Products
         $router->get('/product'        , '\App\Product\Controllers\ProductController@getResources');
         $router->get('/product/{id}'   , '\App\Product\Controllers\ProductController@getResource');
         $router->post('/product'       , '\App\Product\Controllers\ProductController@createResource');
         $router->put('/product'        , '\App\Product\Controllers\ProductController@updateResource');
         $router->delete('/product'     , '\App\Product\Controllers\ProductController@deleteResource');
 
-        // Categories
-        $router->get('/category'        , '\App\category\Controllers\categoryController@getResources');
-        $router->get('/category/{id}'   , '\App\category\Controllers\categoryController@getResource');
-        $router->post('/category'       , '\App\category\Controllers\categoryController@createResource');
-        $router->put('/category'        , '\App\category\Controllers\categoryController@updateResource');
-        $router->delete('/category'     , '\App\category\Controllers\categoryController@deleteResource');
     });
+
+    // Categories
+    $router->get('/category'        , '\App\category\Controllers\categoryController@getResources');
+    $router->get('/category/{id}'   , '\App\category\Controllers\categoryController@getResource');
+    $router->post('/category'       , '\App\category\Controllers\categoryController@createResource');
+    $router->put('/category'        , '\App\category\Controllers\categoryController@updateResource');
+    $router->delete('/category'     , '\App\category\Controllers\categoryController@deleteResource');
 
 });

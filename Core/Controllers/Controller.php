@@ -2,6 +2,7 @@
 
 namespace Core\Controllers;
 
+use Core\Model;
 use Core\Rules\Ownership;
 use Core\Service;
 use Illuminate\Http\JsonResponse;
@@ -53,6 +54,11 @@ class Controller extends BaseController
     protected int $paginate = 0;
 
     /**
+     * @var Model|null
+     */
+    protected ?Model $authenticatedUser;
+
+    /**
      * Controller constructor.
      * @param Request $request
      */
@@ -64,10 +70,17 @@ class Controller extends BaseController
             )
         );
 
-        $this->request = $request;
+        $this->authenticatedUser = auth()->user();
+        $this->request           = $request;
     }
 
-    protected function response(JsonResource $resource)
+    /**
+     * Return response of our resource
+     * @param JsonResource $resource
+     * 
+     * @return JsonResponse
+     */
+    protected function response(JsonResource $resource): JsonResponse
     {
         return response()->json([
             'status' => 200,

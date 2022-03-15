@@ -9,10 +9,14 @@ use App\Product\Resources\ProductCollection;
 use App\Product\Resources\ProductResource;
 use App\Product\Services\ProductService;
 use Core\Controllers\Controller;
-use Core\Rules\Ownership;
+use Core\Traits\CheckResourceBelongsToUser;
+use Core\Traits\CreateResourceWithAuthId;
 
 class ProductController extends Controller
 {
+
+    use CheckResourceBelongsToUser;
+    use CreateResourceWithAuthId;
     
     protected array $classes = [
         'datamapper' => ProductDataMapper::class,
@@ -24,7 +28,6 @@ class ProductController extends Controller
     ];
 
     protected array $createRules = [
-        'user_id'       => 'required',
         'category_id'   => 'required',
         'name'          => 'required',
     ];
