@@ -14,6 +14,7 @@
         "laravel/lumen-framework": "^9.0",
         "laravel/tinker": "^2.7",
         "predis/predis": "^1.1",
+        "spatie/ray": "^1.34",
         "tomfordrumm/jwt-auth": "dev-develop"
     },
     "require-dev": {
