@@ -40,20 +40,26 @@ class Controller extends BaseController
     protected array $guardedCreateFields = [];
 
     /**
+     * The validation rules we want when updating a resource
      * @var array
      */
     protected array $updateRules = [];
 
     /**
+     * The validation rules we want when creating a resource
      * @var array
      */
     protected array $createRules = [];
+
     /**
+     * The amount of pagination we want to use
+     * when getting multiple recourds
      * @var int
      */
     protected int $paginate = 0;
 
     /**
+     * This gives us quick access to the authenticated user
      * @var Model|null
      */
     protected ?Model $authenticatedUser;
