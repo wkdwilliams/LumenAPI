@@ -22,9 +22,8 @@ class UserDataMapper extends DataMapper
             'email'      => $data['email'],
             'password'   => $data['password'],
             'messages'   => $messages,
-            'api_token'  => $data['api_token'],
             'created_at' => $data['created_at'],
-            'updated_at' => $data['updated_at'],
+            'updated_at' => $data['updated_at']
         ];
     }
 
@@ -33,8 +32,7 @@ class UserDataMapper extends DataMapper
         return [
             'name'      => $data['name'],
             'email'     => $data['email'],
-            'password'  => $data['password'],
-            'api_token' => $data['api_token'] ?? \Illuminate\Support\Str::uuid()
+            'password'  => $data['password']
         ];
     }
 
@@ -45,7 +43,6 @@ class UserDataMapper extends DataMapper
             'name'          => $entity->getName(),
             'email'         => $entity->getEmail(),
             'password'      => $entity->getPassword(),
-            'api_token'     => $entity->getApiToken(),
             'created_at'    => $entity->getCreatedAt(),
             'updated_at'    => $entity->getUpdatedAt()
         ];
