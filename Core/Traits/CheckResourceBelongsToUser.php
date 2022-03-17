@@ -13,7 +13,7 @@ trait CheckResourceBelongsToUser
      * @param int $id
      * @return JsonResponse
      */
-    public function getResource(int $id): JsonResponse
+    public function getResource(string $id): JsonResponse
     {
         if(!$this->service->resourceBelongsToUser($this->authenticatedUser->id, $id))
             throw new PermissionDeniedException();

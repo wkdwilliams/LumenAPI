@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Core\DataMapper;
 use Core\Exceptions\ResourceNotFoundException;
 use Core\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use ReflectionClass;
@@ -125,6 +126,18 @@ abstract class Repository
     public function whereNotNull($column): Repository
     {
         return $this->setQuery($this->getQuery()->whereNotNull($column));
+    }
+
+    /**
+     * @param mixed $column
+     * @param mixed $operator
+     * @param mixed $value
+     * 
+     * @return Repository
+     */
+    public function whereOperator($column, $operator, $value): Repository
+    {
+        return $this->setQuery($this->getQuery()->where($column, $operator, $value));
     }
 
     /**
@@ -268,7 +281,7 @@ abstract class Repository
             if($key   === 'id')         continue;
             if($key   === 'created_at') continue;
             if($key   === 'updated_at') continue;
-            if($value === '')           continue;
+            if($value === '')           continue; // <- What if user wants to set value to empty?
 
             $m->{$key} = $value;
         }
