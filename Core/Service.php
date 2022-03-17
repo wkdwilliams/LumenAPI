@@ -28,14 +28,25 @@ abstract class Service
         return $this->repository->findById($id)->entity();
     }
 
+    /**
+     * @param int $userId
+     * @param int $resourceId
+     * 
+     * @return bool
+     */
     public function resourceBelongsToUser(int $userId, int $resourceId): bool
     {
         return $this->repository->where([
-            'id' => $resourceId,
-            'user_id' => $userId
+            'id'        => $resourceId,
+            'user_id'   => $userId
         ])->count() === 1;
     }
 
+    /**
+     * @param int $userId
+     * 
+     * @return EntityCollection
+     */
     public function getResourcesByUserId(int $userId): EntityCollection
     {
         return $this->repository->where(['user_id' => $userId])->entityCollection();
