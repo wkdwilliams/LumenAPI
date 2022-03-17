@@ -10,7 +10,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: "php:8.0-apache"
     container_name: app
     restart: unless-stopped
     tty: true
