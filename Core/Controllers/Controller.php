@@ -99,7 +99,7 @@ class Controller extends BaseController
      * @param int $id
      * @return JsonResponse
      */
-    public function getResource(int $id): JsonResponse
+    public function getResource(string $id): JsonResponse
     {
         $repos = $this->service->getResourceById($id);
 
