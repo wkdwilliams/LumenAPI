@@ -9,7 +9,8 @@ use App\Category\Resources\CategoryCollection;
 use App\Category\Resources\CategoryResource;
 use App\Category\Services\CategoryService;
 use Core\Controllers\Controller;
-    
+use Illuminate\Http\JsonResponse;
+
 class CategoryController extends Controller
 {
     
@@ -22,6 +23,13 @@ class CategoryController extends Controller
         'model'      => Category::class,
     ];
 
-    protected int $paginate = 0;
+    public function getResourceByName(string $name): JsonResponse
+    {
+        $repos = $this->service->getResourceByName($name);
+
+        return $this->response(
+            new $this->classes['resource']($repos)
+        );
+    }
     
 }
