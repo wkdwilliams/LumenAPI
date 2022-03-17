@@ -54,7 +54,7 @@ use App\@@@@@@@@@@@@\Repositories\@@@@@@@@@@@@Repository;
 use App\@@@@@@@@@@@@\Resources\@@@@@@@@@@@@Collection;
 use App\@@@@@@@@@@@@\Resources\@@@@@@@@@@@@Resource;
 use App\@@@@@@@@@@@@\Services\@@@@@@@@@@@@Service;
-use Core\Http\Controllers\Controller;
+use Core\Controllers\Controller;
     
 class @@@@@@@@@@@@Controller extends Controller
 {
