@@ -2,6 +2,7 @@
 
 namespace Core\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,10 @@ class AuthController extends BaseController
         $this->request = $request;
     }
 
-    public function login()
+    /**
+     * @return JsonResponse
+     */
+    public function login(): JsonResponse
     {
         $this->validate($this->request, [
             'email'     => 'required|string',
@@ -36,20 +40,24 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    private function respondWithToken($token)
+    /**
+     * @param string $token
+     * 
+     * @return JsonResponse
+     */
+    private function respondWithToken(string $token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            // 'user' => auth()->user(),
-            'expires_in' => auth()->factory()->getTTL() * 60 * 24
+            'expires_in' => auth()->factory()->getTTL()
         ]);
     }
 }
