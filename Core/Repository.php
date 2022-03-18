@@ -35,6 +35,11 @@ abstract class Repository
     private int $paginate;
 
     /**
+     * @var int
+     */
+    private int $page;
+
+    /**
      * @var string
      */
     private string $cacheKey;
@@ -44,13 +49,14 @@ abstract class Repository
      */
     private string $cachePrefix;
 
-    public function __construct(int $paginate=0)
+    public function __construct(int $paginate=0, int $page = 1)
     {
         $this->query        = new $this->model();
         $this->model        = new $this->model();
         $this->datamapper   = new $this->datamapper();
         $this->cachePrefix  = (new ReflectionClass($this))->getShortName();
         $this->paginate     = $paginate;
+        $this->page         = $page;
     }
 
     /**
@@ -210,11 +216,11 @@ abstract class Repository
     {
         if($this->paginate > 0){
             if(!env('APP_DEBUG')) // Only use the cache in production
-                $data = Cache::remember($this->cacheKey.":".request()->getRequestUri(), Carbon::now()->addHour(), function(){
+                $data = Cache::remember($this->cacheKey.":page:".$this->page, Carbon::now()->addHour(), function(){
                     return $this->getQuery()->paginate($this->paginate)->toArray()['data'];
                 });
             else
-                $data = $this->getQuery()->paginate($this->paginate)->toArray()['data'];
+                $data = $this->getQuery()->paginate($this->paginate, ['*'], 'page', $this->page)->toArray()['data'];
         }
         else{
             if(!env('APP_DEBUG')) // Only use the cache in production

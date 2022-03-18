@@ -69,14 +69,15 @@ class Controller extends BaseController
      */
     public function __construct(Request $request)
     {
-        $this->service = new $this->classes['service'](
-            new $this->classes['repository'](
-                $this->paginate
-            )
-        );
-
         $this->authenticatedUser = auth()->user();
         $this->request           = $request;
+
+        $this->service = new $this->classes['service'](
+            new $this->classes['repository'](
+                $this->paginate,
+                $this->request->get('page') ?? 1
+            )
+        );
     }
 
     /**
