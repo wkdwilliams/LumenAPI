@@ -287,7 +287,6 @@ abstract class Repository
             if($key   === 'id')         continue;
             if($key   === 'created_at') continue;
             if($key   === 'updated_at') continue;
-            if($value === '')           continue; // <- What if user wants to set value to empty?
 
             $m->{$key} = $value;
         }
