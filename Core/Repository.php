@@ -131,7 +131,9 @@ abstract class Repository
      */
     public function whereNotNull($column): Repository
     {
-        return $this->setQuery($this->getQuery()->whereNotNull($column));
+        return $this->setQuery(
+            $this->getQuery()->whereNotNull($column)
+        );
     }
 
     /**
@@ -143,7 +145,9 @@ abstract class Repository
      */
     public function whereOperator($column, $operator, $value): Repository
     {
-        return $this->setQuery($this->getQuery()->where($column, $operator, $value));
+        return $this->setQuery(
+            $this->getQuery()->where($column, $operator, $value)
+        );
     }
 
     /**
@@ -182,15 +186,28 @@ abstract class Repository
      */
     public function findAll(): Repository
     {
-        $query = $this->getQuery()->whereNotNull('id');
-
-        return $this->setQuery($query);
+        return $this->setQuery(
+            $this->getQuery()->whereNotNull('id')
+        );
     }
 
     /**
-     * @return Entity|null
+     * Access the query builder directly within a callback
+     * @param callable $callback
+     * 
+     * @return Repository
      */
-    public function entity(): ?Entity
+    public function queryBuilder(callable $callback): Repository
+    {
+        return $this->setQuery(
+            $callback($this->getQuery())
+        );
+    }
+
+    /**
+     * @return Entity
+     */
+    public function entity(): Entity
     {
         if(!env('APP_DEBUG')) // Only use the cache in production
             $data = Cache::remember($this->cacheKey, Carbon::now()->addHour(), function(){
