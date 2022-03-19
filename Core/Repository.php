@@ -78,6 +78,7 @@ abstract class Repository
     }
 
     /**
+     * Update the query builder with our new query
      * @param $query
      * @return Repository
      */
@@ -94,6 +95,7 @@ abstract class Repository
     }
 
     /**
+     * Order the results by specific column, ascending or descending
      * @param $column
      * @param string $direction
      * @return Repository
@@ -104,6 +106,7 @@ abstract class Repository
     }
 
     /**
+     * Get count of the results
      * @return int
      */
     public function count(): int
@@ -117,6 +120,7 @@ abstract class Repository
     }
 
     /**
+     * Get results using the WHERE clause
      * @param array $query
      * @return Repository
      */
@@ -126,6 +130,7 @@ abstract class Repository
     }
 
     /**
+     * Get results where column is not null
      * @param $column
      * @return Repository
      */
@@ -137,6 +142,7 @@ abstract class Repository
     }
 
     /**
+     * Get results using the where clause, with an operator
      * @param mixed $column
      * @param mixed $operator
      * @param mixed $value
@@ -151,6 +157,7 @@ abstract class Repository
     }
 
     /**
+     * Find record by id
      * @param string $id
      * @return Repository
      */
@@ -160,6 +167,7 @@ abstract class Repository
     }
 
     /**
+     * Find record by foreign id field
      * @param string $foreignIdField
      * @param string $id
      * 
@@ -171,6 +179,7 @@ abstract class Repository
     }
 
     /**
+     * Find record by certain column
      * @param string $columnName
      * @param string $value
      * 
@@ -182,6 +191,7 @@ abstract class Repository
     }
 
     /**
+     * Find all records
      * @return EntityCollection
      */
     public function findAll(): Repository
@@ -192,7 +202,7 @@ abstract class Repository
     }
 
     /**
-     * Access the query builder directly within a callback
+     * Access the query builder directly within a callback for custom query building
      * @param callable $callback
      * 
      * @return Repository
@@ -205,6 +215,7 @@ abstract class Repository
     }
 
     /**
+     * Get entity of our obtained results
      * @return Entity
      */
     public function entity(): Entity
@@ -227,6 +238,7 @@ abstract class Repository
     }
 
     /**
+     * Get entity collection of our obtained results
      * @return EntityCollection
      */
     public function entityCollection(): EntityCollection
@@ -253,6 +265,7 @@ abstract class Repository
     }
 
     /**
+     * Create a record
      * @param array|Entity $data
      * 
      * @return Entity
@@ -285,6 +298,7 @@ abstract class Repository
     }
 
     /**
+     * Update a record
      * @param array|Entity $data
      * 
      * @return Entity
@@ -317,6 +331,7 @@ abstract class Repository
     }
 
     /**
+     * Delete a record
      * @param array $data
      * 
      * @return Entity
