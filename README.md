@@ -114,7 +114,7 @@ class UserService extends Service
     {
         return $this->repository->findAll()->queryBuilder(function($model){
             return $model->groupBy('status');
-        });
+        })->entityCollection();
     }
 }
 ```
