@@ -2,6 +2,7 @@
 
 namespace Core\Controllers;
 
+use Core\Exceptions\InvalidIdException;
 use Core\Model;
 use Core\Service;
 use Illuminate\Http\JsonResponse;
@@ -51,6 +52,16 @@ class Controller extends BaseController
     protected array $createRules = [];
 
     /**
+     * @var array
+     */
+    protected array $getResourceRules = [];
+
+    /**
+     * @var array
+     */
+    protected array $getResourcesRules = [];
+
+    /**
      * The amount of pagination we want to use
      * when getting multiple recourds
      * @var int
@@ -71,6 +82,10 @@ class Controller extends BaseController
     {
         $this->authenticatedUser = auth()->user();
         $this->request           = $request;
+
+        if($this->request->id !== null)
+            if(!is_numeric($this->request->id))
+                throw new InvalidIdException();
 
         $this->service = new $this->classes['service'](
             new $this->classes['repository'](
@@ -99,8 +114,10 @@ class Controller extends BaseController
      * @param int $id
      * @return JsonResponse
      */
-    public function getResource(string $id): JsonResponse
+    public function getResource(int $id): JsonResponse
     {
+        $this->validate($this->request, $this->getResourceRules);
+
         $repos = $this->service->getResourceById($id);
 
         return $this->response(
@@ -114,6 +131,8 @@ class Controller extends BaseController
      */
     public function getResources(): JsonResponse
     {
+        $this->validate($this->request, $this->getResourcesRules);
+
         $repos = $this->service->getResources();
 
         return $this->response(

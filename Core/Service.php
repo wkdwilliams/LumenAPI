@@ -23,7 +23,7 @@ abstract class Service
      * 
      * @return Entity
      */
-    public function getResourceById(string $id): Entity
+    public function getResourceById(int $id): Entity
     {
         return $this->repository->findById($id)->entity();
     }

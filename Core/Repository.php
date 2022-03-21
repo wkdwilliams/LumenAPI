@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Core\DataMapper;
 use Core\Exceptions\ResourceNotFoundException;
 use Core\Model;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use ReflectionClass;
