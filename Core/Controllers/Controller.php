@@ -52,16 +52,6 @@ class Controller extends BaseController
     protected array $createRules = [];
 
     /**
-     * @var array
-     */
-    protected array $getResourceRules = [];
-
-    /**
-     * @var array
-     */
-    protected array $getResourcesRules = [];
-
-    /**
      * The amount of pagination we want to use
      * when getting multiple recourds
      * @var int
@@ -116,8 +106,6 @@ class Controller extends BaseController
      */
     public function getResource(int $id): JsonResponse
     {
-        $this->validate($this->request, $this->getResourceRules);
-
         $repos = $this->service->getResourceById($id);
 
         return $this->response(
@@ -131,8 +119,6 @@ class Controller extends BaseController
      */
     public function getResources(): JsonResponse
     {
-        $this->validate($this->request, $this->getResourcesRules);
-
         $repos = $this->service->getResources();
 
         return $this->response(
