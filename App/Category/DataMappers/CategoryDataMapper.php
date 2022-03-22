@@ -23,14 +23,17 @@ class CategoryDataMapper extends DataMapper
     protected function toRepository(array $data): array
     {
         return [
-            'name' => $data['name'],
+            'name' => $data['name']
         ];
     }
     
     protected function fromEntity(Entity $data): array
     {
         return [
-            'name' => $data->getName()
+            'id'         => $data->getId(),
+            'name'       => $data->getName(),
+            'updated_at' => $data->getUpdatedAt(),
+            'created_at' => $data->getCreatedAt()
         ];
     }
     

@@ -38,9 +38,12 @@ class ProductDataMapper extends DataMapper
     protected function fromEntity(Entity $data): array
     {
         return [
+            'id'            => $data->getId(),
             'name'          => $data->getName(),
             'user_id'       => $data->getUserId(),
-            'category_id'   => $data->getCategoryId()
+            'category_id'   => $data->getCategoryId(),
+            'updated_at'    => $data->getUpdatedAt(),
+            'created_at'    => $data->getCreatedAt()
         ];
     }
     
