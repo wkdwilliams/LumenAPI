@@ -27,17 +27,29 @@ class @@@@@@@@@@@@DataMapper extends DataMapper
     
     protected function fromRepository(array \$data): array
     {
-        return [];
+        return [
+            'id'         => \$data['id'],
+            //
+            'created_at' => \$data['created_at'],
+            'updated_at' => \$data['updated_at'],
+        ];
     }
     
     protected function toRepository(array \$data): array
     {
-        return [];
+        return [
+            //
+        ];
     }
     
     protected function fromEntity(Entity \$data): array
     {
-        return [];
+        return [
+            'id'         => \$data->getId(),
+            //
+            'updated_at' => \$data->getUpdatedAt(),
+            'created_at' => \$data->getCreatedAt()
+        ];
     }
     
 }
