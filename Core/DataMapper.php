@@ -26,8 +26,7 @@ abstract class DataMapper
      */
     public function repoToEntity(array $data): Entity
     {
-        $this->entity = new $this->entity();
-        return $this->entity->populate($this->fromRepository($data));
+        return (new $this->entity)->populate($this->fromRepository($data));
     }
 
     /**
@@ -37,8 +36,7 @@ abstract class DataMapper
      */
     public function arrayToEntity(array $data): Entity
     {
-        $this->entity = new $this->entity();
-        return $this->entity->populate($this->toRepository($data));
+        return (new $this->entity)->populate($this->toRepository($data));
     }
 
     /**
