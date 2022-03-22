@@ -11,9 +11,12 @@ abstract class DataMapper
      */
     protected $entity;
 
+    /**
+     * Constructor of the datamapper
+     */
     public function __construct()
     {
-        $this->entity = new $this->entity();
+
     }
 
     /**
