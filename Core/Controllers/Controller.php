@@ -91,12 +91,12 @@ class Controller extends BaseController
      * 
      * @return JsonResponse
      */
-    protected function response(JsonResource $resource): JsonResponse
+    protected function response(JsonResource $resource, int $status=200): JsonResponse
     {
         return response()->json([
-            'status' => 200,
+            'status' => $status,
             'data'   => $resource
-        ], 200);
+        ], $status);
     }
 
     /**
@@ -143,7 +143,8 @@ class Controller extends BaseController
         $repos = $this->service->createResource($data);
 
         return $this->response(
-            new $this->classes['resource']($repos)
+            new $this->classes['resource']($repos),
+            201
         );
     }
 
